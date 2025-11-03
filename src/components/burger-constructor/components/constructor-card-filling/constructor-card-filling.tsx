@@ -1,22 +1,22 @@
 import { ConstructorElement } from '@krgaa/react-developer-burger-ui-components';
 
-import type { TConstructorIngredient } from '@/utils/types';
+import type { TConstructorIngredient } from '@/types';
 
-import styles from './constructor-card.module.css';
+import styles from './constructor-card-filling.module.css';
 
-type ConstructorCardFilling = {
+type TConstructorCardFillingProps = {
   ingredient: TConstructorIngredient;
 };
 
 export const ConstructorCardFilling = ({
   ingredient,
-}: ConstructorCardFilling): React.JSX.Element => {
+}: TConstructorCardFillingProps): React.JSX.Element => {
   return (
     <ConstructorElement
       price={ingredient.price}
       text={ingredient.name}
       thumbnail={ingredient.image}
-      extraClass={styles.constructor_card}
+      extraClass={styles.constructor_element_custom}
     />
   );
 };

@@ -8,7 +8,7 @@ import { OrderSummary } from './components/order-summary/order-summary';
 import { useConstructorIngredients } from './hooks/use-constructor-ingredients';
 import { useOrder } from './hooks/use-order';
 
-import type { TIngredient } from '@utils/types';
+import type { TIngredient } from '@/types';
 
 import styles from './burger-constructor.module.css';
 
@@ -20,6 +20,7 @@ export const BurgerConstructor = ({
   ingredients,
 }: TBurgerConstructorProps): React.JSX.Element => {
   console.log(ingredients);
+
   const { bun, filling } = useConstructorIngredients(constructorIngredients);
   const { total } = useOrder(constructorIngredients);
   const { openModal } = useModalActions();

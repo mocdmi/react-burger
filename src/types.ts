@@ -1,4 +1,4 @@
-import type { INGREDIENTS_GROUP_TYPE } from '@/components/burger-ingredients/const/ingredients-group-types';
+import type { INGREDIENTS_GROUP_TYPE } from '@/components/burger-ingredients/const';
 
 export type TIngredientsGroupType = keyof typeof INGREDIENTS_GROUP_TYPE;
 

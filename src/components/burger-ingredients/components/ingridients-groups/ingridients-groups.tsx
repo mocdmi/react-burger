@@ -1,6 +1,6 @@
-import { INGREDIENTS_GROUP_TYPE } from '../../const/ingredients-group-types';
+import { INGREDIENTS_GROUP_TYPE } from '../../const';
 
-import type { TIngredient, TIngredientsGroupType } from '@/utils/types';
+import type { TIngredient, TIngredientsGroupType } from '@/types';
 import type { ReactNode } from 'react';
 
 type IngredientsGroupsProps = {

@@ -3,12 +3,11 @@ import { useModal } from '../hooks/use-modal';
 
 import type { ReactNode } from 'react';
 
-export const ModalProvider = ({
-  children,
-}: {
+type TModalProviderProps = {
   children: ReactNode;
-}): React.JSX.Element => {
-  const modal = useModal();
+};
 
+export const ModalProvider = ({ children }: TModalProviderProps): React.JSX.Element => {
+  const modal = useModal();
   return <modalContext.Provider value={modal}>{children}</modalContext.Provider>;
 };

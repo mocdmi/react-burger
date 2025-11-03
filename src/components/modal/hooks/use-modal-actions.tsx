@@ -1,15 +1,17 @@
 import { useModalContext } from './modal-context';
 
-import type { TModalType, TOpenArgs } from '../types/common';
+import type { TModalType, TOpenArgs } from '../types';
 
-export const useModalActions = (): {
+type TModalActionsState = {
   openModal: <T extends TModalType>({ modalType, payload }: TOpenArgs<T>) => void;
   closeModal: () => void;
-} => {
-  const context = useModalContext();
+};
+
+export const useModalActions = (): TModalActionsState => {
+  const { open, close } = useModalContext();
 
   return {
-    openModal: context.open,
-    closeModal: context.close,
+    openModal: open,
+    closeModal: close,
   };
 };

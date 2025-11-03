@@ -1,4 +1,4 @@
-import type { TConstructorIngredient } from './types';
+import type { TConstructorIngredient } from '../types';
 
 export const constructorIngredients: TConstructorIngredient[] = [
   {

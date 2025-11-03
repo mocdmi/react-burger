@@ -1,4 +1,4 @@
-import type { TIngredient } from '@/utils/types';
+import type { TIngredient } from '@/types';
 
 export type TModalType = 'ingredient-details' | 'order-details';
 

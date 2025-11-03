@@ -1,6 +1,6 @@
-import { INGREDIENTS_GROUP_TYPE } from '../../const/ingredients-group-types';
+import { INGREDIENTS_GROUP_TYPE } from '../../const';
 
-import type { TIngredient, TIngredientsGroupType } from '@/utils/types';
+import type { TIngredient, TIngredientsGroupType } from '@/types';
 import type { ReactNode } from 'react';
 
 import styles from './ingredients-group.module.css';
@@ -22,7 +22,7 @@ export const IngredientsGroup = ({
         {INGREDIENTS_GROUP_TYPE[ingredientsGroupType]}
       </h2>
       <div className={styles.ingredients}>
-        {ingredients.map((ingredient) => (
+        {ingredients?.map((ingredient) => (
           <div key={ingredient._id}>{renderIngredientCard(ingredient)}</div>
         ))}
       </div>

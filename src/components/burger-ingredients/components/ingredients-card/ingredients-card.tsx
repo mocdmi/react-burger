@@ -1,16 +1,20 @@
-import { CurrencyIcon } from '@krgaa/react-developer-burger-ui-components';
+import { Counter, CurrencyIcon } from '@krgaa/react-developer-burger-ui-components';
 
-import type { TIngredient } from '@/utils/types';
+import type { TIngredient } from '@/types';
 
 import styles from './ingredients-card.module.css';
 
+type TIngredientsCardProps = {
+  ingredient: TIngredient;
+  count?: number;
+  onClick?: () => void;
+};
+
 export const IngredientsCard = ({
   ingredient,
+  count,
   onClick,
-}: {
-  ingredient: TIngredient;
-  onClick?: () => void;
-}): React.JSX.Element => {
+}: TIngredientsCardProps): React.JSX.Element => {
   return (
     <section className={styles.ingredients_card} onClick={onClick}>
       <img
@@ -23,6 +27,7 @@ export const IngredientsCard = ({
         <CurrencyIcon type="primary" />
       </div>
       <h3 className="text text_type_main-default">{ingredient.name}</h3>
+      {count && <Counter count={count} size="default" extraClass={styles.counter} />}
     </section>
   );
 };

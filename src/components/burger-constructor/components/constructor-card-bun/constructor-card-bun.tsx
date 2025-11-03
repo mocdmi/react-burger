@@ -1,10 +1,10 @@
 import { ConstructorElement } from '@krgaa/react-developer-burger-ui-components';
 
-import type { TConstructorIngredient } from '@/utils/types';
+import type { TConstructorIngredient } from '@/types';
 
-import styles from './constructor-card.module.css';
+import styles from './constructor-card-bun.module.css';
 
-type ConstructorCardBun = {
+type TConstructorCardBunProps = {
   ingredient: TConstructorIngredient;
   position: 'top' | 'bottom';
 };
@@ -12,7 +12,7 @@ type ConstructorCardBun = {
 export const ConstructorCardBun = ({
   ingredient,
   position,
-}: ConstructorCardBun): React.JSX.Element => {
+}: TConstructorCardBunProps): React.JSX.Element => {
   return (
     <ConstructorElement
       isLocked
@@ -20,7 +20,7 @@ export const ConstructorCardBun = ({
       text={ingredient.name}
       thumbnail={ingredient.image}
       type={position}
-      extraClass={styles.constructor_card}
+      extraClass={styles.constructor_element_custom}
     />
   );
 };

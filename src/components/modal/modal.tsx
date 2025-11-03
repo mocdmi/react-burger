@@ -1,19 +1,33 @@
 import { CloseIcon } from '@krgaa/react-developer-burger-ui-components';
+import { useEffect } from 'react';
 import { createPortal } from 'react-dom';
 
 import { ModalOverlay } from '../modal-overlay/modal-overlay';
 import { useModalContext } from './hooks/modal-context';
 import { modalRegistry } from './utils/modal-registry';
 
+import type { ModalPayloadMap, TModalType } from './types';
+
 import styles from './modal.module.css';
 
 export const Modal = (): React.JSX.Element | null => {
   const { isModalOpen, payload, modalType, close } = useModalContext();
 
+  const handleKeyUp = (e: KeyboardEvent): void => {
+    if (e.code === 'Escape') {
+      close();
+    }
+  };
+
+  useEffect(() => {
+    document.addEventListener('keyup', handleKeyUp);
+    return (): void => document.removeEventListener('keyup', handleKeyUp);
+  }, []);
+
   if (!isModalOpen || !modalType) return null;
 
   const ModalComponent = modalRegistry[modalType] as React.ComponentType<{
-    payload: typeof payload;
+    payload: ModalPayloadMap[TModalType];
   }>;
 
   if (!ModalComponent) return null;

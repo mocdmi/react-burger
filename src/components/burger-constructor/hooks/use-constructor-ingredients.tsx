@@ -1,30 +1,27 @@
 import { useMemo } from 'react';
 
-import type { TConstructorIngredient } from '@/utils/types';
+import type { TConstructorIngredient } from '@/types';
 
-type TConstructor = {
+type TConstructorIngredientsState = {
   bun: TConstructorIngredient | null;
   filling: TConstructorIngredient[];
 };
 
 export const useConstructorIngredients = (
   ingredients: TConstructorIngredient[]
-): TConstructor => {
+): TConstructorIngredientsState => {
   return useMemo(() => {
-    const filling: TConstructorIngredient[] = [];
-    let bun: TConstructorIngredient | null = null;
+    return ingredients.reduce<TConstructorIngredientsState>(
+      (acc, ingredient) => {
+        if (ingredient.type === 'bun') {
+          acc.bun = ingredient;
+        } else {
+          acc.filling.push(ingredient);
+        }
 
-    ingredients.forEach((ingredient) => {
-      if (ingredient.type === 'bun') {
-        bun = ingredient;
-      } else {
-        filling.push(ingredient);
-      }
-    });
-
-    return {
-      bun,
-      filling,
-    };
+        return acc;
+      },
+      { bun: null, filling: [] }
+    );
   }, [ingredients]);
 };

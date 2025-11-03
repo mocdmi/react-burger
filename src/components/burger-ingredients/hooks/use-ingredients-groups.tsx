@@ -1,21 +1,23 @@
 import { useMemo } from 'react';
 
-import { INGREDIENTS_GROUP_TYPE } from '../const/ingredients-group-types';
+import type { TIngredient, TIngredientsGroupType } from '@/types';
 
-import type { TIngredient, TIngredientsGroupType } from '@/utils/types';
+type TIngredientsGroups = {
+  groupedIngredients: Record<TIngredientsGroupType, TIngredient[]>;
+};
 
-export const useIngredientsGroups = (
-  ingredients: TIngredient[]
-): { groupedIngredients: Record<TIngredientsGroupType, TIngredient[]> } => {
+export const useIngredientsGroups = (ingredients: TIngredient[]): TIngredientsGroups => {
   return useMemo(() => {
-    const groupedIngredients: Record<TIngredientsGroupType, TIngredient[]> =
-      Object.fromEntries(
-        Object.entries(INGREDIENTS_GROUP_TYPE).map(([key, _]) => [key, []])
-      ) as Record<string, TIngredient[]>;
-
-    ingredients.forEach((item) => {
-      groupedIngredients[item.type].push(item);
-    });
+    const groupedIngredients = ingredients.reduce<
+      Record<TIngredientsGroupType, TIngredient[]>
+    >(
+      (acc, ingredient) => {
+        acc[ingredient.type] ??= [];
+        acc[ingredient.type].push(ingredient);
+        return acc;
+      },
+      {} as Record<TIngredientsGroupType, TIngredient[]>
+    );
 
     return {
       groupedIngredients,

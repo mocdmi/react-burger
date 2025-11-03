@@ -1,18 +1,18 @@
 import { useState } from 'react';
 
-import type { TModalType, TOpenArgs } from '../types/common';
+import type { ModalPayloadMap, TModalType, TOpenArgs } from '../types';
 
-type TModal = {
+type TModalState = {
   isModalOpen: boolean;
-  payload?: unknown; // TODO: Типизировать
+  payload?: ModalPayloadMap[TModalType];
   modalType: TModalType | null;
   open: <T extends TModalType>({ modalType, payload }: TOpenArgs<T>) => void;
   close: () => void;
 };
 
-export function useModal(): TModal {
+export function useModal(): TModalState {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [payload, setPayload] = useState<unknown>();
+  const [payload, setPayload] = useState<ModalPayloadMap[TModalType]>();
   const [type, setType] = useState<TModalType | null>(null);
 
   function open<T extends TModalType>({ modalType, payload }: TOpenArgs<T>): void {

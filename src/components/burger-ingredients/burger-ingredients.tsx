@@ -6,7 +6,7 @@ import { IngredientsGroup } from './components/ingredients-group/ingredients-gro
 import { IngredientsGroups } from './components/ingridients-groups/ingridients-groups';
 import { useIngredientsGroups } from './hooks/use-ingredients-groups';
 
-import type { TIngredient } from '@utils/types';
+import type { TIngredient } from '@/types';
 
 import styles from './burger-ingredients.module.css';
 

@@ -1,4 +1,4 @@
-import type { TConstructorIngredient } from '@/utils/types';
+import type { TConstructorIngredient } from '@/types';
 
 export type TConstructorCardProps =
   | { ingredient: TConstructorIngredient; position: 'top' | 'bottom' }

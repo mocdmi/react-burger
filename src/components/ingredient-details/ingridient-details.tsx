@@ -1,14 +1,16 @@
 import { IngredientNutrion } from './components/ingredient-nutrion/ingredient-nutrion';
 
-import type { TIngredient } from '@/utils/types';
+import type { TIngredient } from '@/types';
 
 import styles from './ingredient-details.module.css';
 
+type TIngredientDetailsProps = {
+  payload: TIngredient;
+};
+
 export const IngredientDetails = ({
   payload,
-}: {
-  payload: TIngredient;
-}): React.JSX.Element => {
+}: TIngredientDetailsProps): React.JSX.Element => {
   const { name, image_large, calories, proteins, fat, carbohydrates } = payload;
 
   return (
