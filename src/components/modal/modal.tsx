@@ -1,5 +1,5 @@
 import { CloseIcon } from '@krgaa/react-developer-burger-ui-components';
-import { useEffect } from 'react';
+import { useCallback, useEffect } from 'react';
 import { createPortal } from 'react-dom';
 
 import { ModalOverlay } from '../modal-overlay/modal-overlay';
@@ -13,16 +13,19 @@ import styles from './modal.module.css';
 export const Modal = (): React.JSX.Element | null => {
   const { isModalOpen, payload, modalType, close } = useModalContext();
 
-  const handleKeyUp = (e: KeyboardEvent): void => {
-    if (e.code === 'Escape') {
-      close();
-    }
-  };
+  const handleKeyUp = useCallback(
+    (e: KeyboardEvent): void => {
+      if (e.code === 'Escape') {
+        close();
+      }
+    },
+    [close]
+  );
 
   useEffect(() => {
     document.addEventListener('keyup', handleKeyUp);
     return (): void => document.removeEventListener('keyup', handleKeyUp);
-  }, []);
+  }, [handleKeyUp]);
 
   if (!isModalOpen || !modalType) return null;
 

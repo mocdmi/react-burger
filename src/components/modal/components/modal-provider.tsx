@@ -1,7 +1,7 @@
+import { useMemo, type ReactNode } from 'react';
+
 import { modalContext } from '../hooks/modal-context';
 import { useModal } from '../hooks/use-modal';
-
-import type { ReactNode } from 'react';
 
 type TModalProviderProps = {
   children: ReactNode;
@@ -9,5 +9,10 @@ type TModalProviderProps = {
 
 export const ModalProvider = ({ children }: TModalProviderProps): React.JSX.Element => {
   const modal = useModal();
-  return <modalContext.Provider value={modal}>{children}</modalContext.Provider>;
+  const contextValue = useMemo(
+    () => modal,
+    [modal.isModalOpen, modal.modalType, modal.payload, modal.open, modal.close]
+  );
+
+  return <modalContext.Provider value={contextValue}>{children}</modalContext.Provider>;
 };
