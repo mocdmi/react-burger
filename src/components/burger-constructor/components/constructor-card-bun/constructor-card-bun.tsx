@@ -17,7 +17,7 @@ export const ConstructorCardBun = ({
     <ConstructorElement
       isLocked
       price={ingredient.price}
-      text={ingredient.name}
+      text={`${ingredient.name} (${position === 'top' ? 'верх' : 'низ'})`}
       thumbnail={ingredient.image}
       type={position}
       extraClass={styles.constructor_element_custom}

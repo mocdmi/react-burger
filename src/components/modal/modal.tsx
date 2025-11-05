@@ -45,6 +45,6 @@ export const Modal = (): React.JSX.Element | null => {
       </div>
       <ModalOverlay onClick={close} />
     </div>,
-    document.querySelector('body')!
+    document.getElementById('modals')!
   );
 };
