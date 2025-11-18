@@ -1,69 +1,53 @@
-import { Tab } from '@krgaa/react-developer-burger-ui-components';
+import { useGetAllIngredientsQuery } from '@/services/api/ingredients-api';
+import { getErrorMessage } from '@/services/api/utils/get-error-message';
+import { Preloader } from '@krgaa/react-developer-burger-ui-components';
 
 import { useModalActions } from '../modal/hooks/use-modal-actions';
+import { GroupsTabs } from './components/groups-tabs/groups-tabs';
 import { IngredientsCard } from './components/ingredients-card/ingredients-card';
 import { IngredientsGroup } from './components/ingredients-group/ingredients-group';
 import { IngredientsGroups } from './components/ingridients-groups/ingridients-groups';
+import { useIngredientsCounter } from './hooks/use-ingredients-counter';
 import { useIngredientsGroups } from './hooks/use-ingredients-groups';
-
-import type { TIngredient } from '@/types';
+import { useIngredientsTabs } from './hooks/use-Ingredients-tabs';
 
 import styles from './burger-ingredients.module.css';
 
-type TBurgerIngredientsProps = {
-  ingredients: TIngredient[];
-};
-
-export const BurgerIngredients = ({
-  ingredients,
-}: TBurgerIngredientsProps): React.JSX.Element => {
-  const { groupedIngredients } = useIngredientsGroups(ingredients);
+export const BurgerIngredients = (): React.JSX.Element => {
+  const { data, isLoading, error, isError } = useGetAllIngredientsQuery();
+  const { groupedIngredients } = useIngredientsGroups(data?.data);
+  const { scrolledContainerRef, groupRefs, activeTab, scrollToGroup } =
+    useIngredientsTabs(groupedIngredients);
   const { openModal } = useModalActions();
+  const { ingredientCounts } = useIngredientsCounter();
+
+  const errorMessage = getErrorMessage(error);
 
   return (
     <section className={styles.burger_ingredients}>
-      <nav>
-        <ul className={styles.menu}>
-          <Tab
-            value="bun"
-            active={true}
-            onClick={() => {
-              /* TODO */
-            }}
-          >
-            Булки
-          </Tab>
-          <Tab
-            value="main"
-            active={false}
-            onClick={() => {
-              /* TODO */
-            }}
-          >
-            Начинки
-          </Tab>
-          <Tab
-            value="sauce"
-            active={false}
-            onClick={() => {
-              /* TODO */
-            }}
-          >
-            Соусы
-          </Tab>
-        </ul>
-      </nav>
-      <div className={`${styles.scrolled} custom-scroll mb-10`}>
+      <GroupsTabs activeTab={activeTab} onToggle={scrollToGroup} />
+      <div
+        ref={scrolledContainerRef}
+        className={`${styles.scrolled} custom-scroll mb-10`}
+      >
+        {isLoading && (
+          <div className={styles.preloader}>
+            <Preloader />
+          </div>
+        )}
+        {isError && <div className={styles.error}>{errorMessage}</div>}
         {
           <IngredientsGroups
             groupedIngredients={groupedIngredients}
             renderGroup={({ ingredientsGroupType, ingredients }) => (
               <IngredientsGroup
+                ref={groupRefs[ingredientsGroupType]}
                 ingredientsGroupType={ingredientsGroupType}
                 ingredients={ingredients}
                 renderIngredientCard={(ingredient) => (
                   <IngredientsCard
                     ingredient={ingredient}
+                    count={ingredientCounts[ingredient._id]}
                     onClick={() =>
                       openModal({
                         modalType: 'ingredient-details',

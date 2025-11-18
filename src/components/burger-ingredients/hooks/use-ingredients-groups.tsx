@@ -2,13 +2,15 @@ import { useMemo } from 'react';
 
 import type { TIngredient, TIngredientsGroupType } from '@/types';
 
-type TIngredientsGroups = {
-  groupedIngredients: Record<TIngredientsGroupType, TIngredient[]>;
+type TUseIngredientsGroupsResult = {
+  groupedIngredients?: Record<TIngredientsGroupType, TIngredient[]>;
 };
 
-export const useIngredientsGroups = (ingredients: TIngredient[]): TIngredientsGroups => {
+export const useIngredientsGroups = (
+  ingredients?: TIngredient[]
+): TUseIngredientsGroupsResult => {
   return useMemo(() => {
-    const groupedIngredients = ingredients.reduce<
+    const groupedIngredients = ingredients?.reduce<
       Record<TIngredientsGroupType, TIngredient[]>
     >(
       (acc, ingredient) => {
