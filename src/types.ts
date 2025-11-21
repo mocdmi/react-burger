@@ -17,11 +17,4 @@ export type TIngredient = {
   __v: number;
 };
 
-export type TConstructorIngredient = {
-  _id: string;
-  instanceId: string;
-  name: string;
-  type: TIngredientsGroupType;
-  price: number;
-  image: string;
-};
+export type TConstructorIngredient = TIngredient & { uuid: string };

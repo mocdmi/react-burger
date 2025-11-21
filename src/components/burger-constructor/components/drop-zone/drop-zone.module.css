@@ -1,0 +1,21 @@
+.drop_zone {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border: 1px dashed rgb(255 255 255 / 50%);
+  border-radius: 20px;
+  transition: border-color ease 300ms;
+}
+
+.drop_zone_default {
+  height: 100%;
+}
+
+.drop_zone_bun {
+  height: 100px;
+}
+
+.drop_zone_active {
+  border-color: #4c4cff;
+}

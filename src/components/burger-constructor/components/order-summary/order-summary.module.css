@@ -21,3 +21,11 @@
   width: 33px;
   height: auto;
 }
+
+.error {
+  position: absolute;
+  top: calc(100% + 5px);
+  left: 0;
+  width: 100%;
+  text-align: center;
+}

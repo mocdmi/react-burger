@@ -2,16 +2,16 @@ import { useMemo } from 'react';
 
 import type { TConstructorIngredient } from '@/types';
 
-type TConstructorIngredientsState = {
+type TUseConstructorIngredientsResult = {
   bun: TConstructorIngredient | null;
   filling: TConstructorIngredient[];
 };
 
 export const useConstructorIngredients = (
   ingredients: TConstructorIngredient[]
-): TConstructorIngredientsState => {
+): TUseConstructorIngredientsResult => {
   return useMemo(() => {
-    return ingredients.reduce<TConstructorIngredientsState>(
+    return ingredients.reduce<TUseConstructorIngredientsResult>(
       (acc, ingredient) => {
         if (ingredient.type === 'bun') {
           acc.bun = ingredient;

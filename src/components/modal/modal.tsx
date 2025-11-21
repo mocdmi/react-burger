@@ -41,7 +41,7 @@ export const Modal = (): React.JSX.Element | null => {
         <button className={styles.close_button} onClick={close}>
           <CloseIcon type="primary" />
         </button>
-        <ModalComponent payload={payload} />
+        {payload && <ModalComponent payload={payload} />}
       </div>
       <ModalOverlay onClick={close} />
     </div>,

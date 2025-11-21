@@ -1,3 +1,4 @@
+import { useIngredientDrag } from '@/hooks/use-ingredient-drag';
 import { Counter, CurrencyIcon } from '@krgaa/react-developer-burger-ui-components';
 
 import type { TIngredient } from '@/types';
@@ -15,8 +16,14 @@ export const IngredientsCard = ({
   count,
   onClick,
 }: TIngredientsCardProps): React.JSX.Element => {
+  const { dragRef } = useIngredientDrag(ingredient);
+
   return (
-    <section className={styles.ingredients_card} onClick={onClick}>
+    <section
+      ref={dragRef as unknown as React.Ref<HTMLElement>}
+      className={styles.ingredients_card}
+      onClick={onClick}
+    >
       <img
         className={`${styles.image} ml-4 mr-4`}
         src={ingredient.image}
