@@ -1,16 +1,8 @@
 import { configureStore } from '@reduxjs/toolkit';
 import { setupListeners } from '@reduxjs/toolkit/query';
 
-import {
-  ingredientsApiMiddleware,
-  ingredientsApiReducer,
-  ingredientsApiReducerPath,
-} from './api/ingredients-api';
-import {
-  orderApiMiddleware,
-  orderApiReducer,
-  orderApiReducerPath,
-} from './api/order-api';
+import { apiMiddleware, apiReducer, apiReducerPath } from './api/api';
+import { authReducer, authReducerPath } from './slices/auth-slice';
 import {
   ingredientsConstructorReducer,
   ingredientsConstructorReducerPath,
@@ -19,11 +11,10 @@ import {
 export const store = configureStore({
   reducer: {
     [ingredientsConstructorReducerPath]: ingredientsConstructorReducer,
-    [ingredientsApiReducerPath]: ingredientsApiReducer,
-    [orderApiReducerPath]: orderApiReducer,
+    [authReducerPath]: authReducer,
+    [apiReducerPath]: apiReducer,
   },
-  middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat(ingredientsApiMiddleware, orderApiMiddleware),
+  middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(apiMiddleware),
   devTools: true,
 });
 

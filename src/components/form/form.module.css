@@ -1,0 +1,23 @@
+.form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.header {
+  text-align: center;
+}
+
+.fields {
+  display: flex;
+  flex-direction: column;
+  row-gap: calc(var(--offset-base-size) * 6);
+}
+
+.actions {
+  text-align: center;
+}
+
+.footer {
+  text-align: center;
+}

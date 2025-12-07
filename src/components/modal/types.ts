@@ -11,4 +11,5 @@ export type ModalPayloadMap = {
 export type TOpenArgs<T extends TModalType> = {
   modalType: TModalType;
   payload?: ModalPayloadMap[T];
+  onClose?: () => void;
 };

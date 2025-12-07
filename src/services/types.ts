@@ -1,6 +1,13 @@
 import type { TIngredient } from '@/types';
 
-export type TGetAllIngredientsResponce = {
+export type TUser = {
+  user: {
+    email: string;
+    name: string;
+  } | null;
+};
+
+export type TGetAllIngredientsResponse = {
   success: boolean;
   data: TIngredient[];
 };
@@ -9,7 +16,7 @@ export type TCreateOrderRequest = {
   ingredients: string[];
 };
 
-type TCreateOrderOkResponce = {
+type TCreateOrderOkResponse = {
   name: string;
   order: {
     number: number;
@@ -17,9 +24,104 @@ type TCreateOrderOkResponce = {
   success: true;
 };
 
-type TCreateOrderErrorResponce = {
+export type TErrorResponse = {
   message: string;
   success: false;
 };
 
-export type TCreateOrderResponce = TCreateOrderOkResponce | TCreateOrderErrorResponce;
+export type TCreateOrderResponse = TCreateOrderOkResponse | TErrorResponse;
+
+export type TLoginRequest = {
+  email: string;
+  password: string;
+};
+
+type TLoginOkResponse = {
+  success: true;
+  accessToken: string;
+  refreshToken: string;
+  user: {
+    email: string;
+    name: string;
+  };
+};
+
+export type TLoginResponse = TLoginOkResponse | TErrorResponse;
+
+export type TRegisterRequest = {
+  email: string;
+  password: string;
+  name: string;
+};
+
+type TRegisterOkResponse = {
+  success: true;
+  user: {
+    email: string;
+    name: string;
+  };
+  accessToken: string;
+  refreshToken: string;
+};
+
+export type TRegisterResponse = TRegisterOkResponse | TErrorResponse;
+
+type TTokenRefreshOkResponse = {
+  success: true;
+  accessToken: string;
+  refreshToken: string;
+};
+
+export type TTokenRefreshResponse = TTokenRefreshOkResponse | TErrorResponse;
+
+export type TUpdateUserRequest = {
+  email: string;
+  name: string;
+  password: string;
+};
+
+type TUserOkResponse = {
+  success: true;
+  user: {
+    email: string;
+    name: string;
+  };
+};
+
+export type TUserResponse = TUserOkResponse | TErrorResponse;
+
+export type TSendEmailResetPasswordRequest = {
+  email: string;
+};
+
+type TSendEmailResetPasswordOkResponse = {
+  success: true;
+  message: string;
+};
+
+export type TSendEmailResetPasswordResponse =
+  | TSendEmailResetPasswordOkResponse
+  | TErrorResponse;
+
+export type TSendEmailRequest = {
+  password: string;
+  token: string;
+};
+
+type TResetPasswordOkResponse = {
+  success: true;
+  message: string;
+};
+
+export type TResetPasswordResponse = TResetPasswordOkResponse | TErrorResponse;
+
+type TLogoutOkResponse = {
+  success: true;
+  message: string;
+};
+
+export type TLogoutResponse = TLogoutOkResponse | TErrorResponse;
+
+export type TLogoutRequest = {
+  token: string;
+};
