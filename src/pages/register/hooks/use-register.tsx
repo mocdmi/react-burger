@@ -7,7 +7,7 @@ import { useNavigate, useLocation } from 'react-router-dom';
 
 import type { TForm } from '../types';
 import type { TRegisterResponse } from '@/services/types';
-import type { LocationState } from '@/types';
+import type { TLocationState } from '@/types';
 
 type TUseRegisterResult = {
   isLoading: boolean;
@@ -23,7 +23,7 @@ export const useRegister = (form: TForm): TUseRegisterResult => {
   const location = useLocation();
   const [errorMessage, setErrorMessage] = useState<string | undefined>();
 
-  const state = location.state as LocationState;
+  const state = location.state as TLocationState;
   const from = state?.from?.pathname ?? '/';
 
   const sendForm = useCallback(async (): Promise<void> => {

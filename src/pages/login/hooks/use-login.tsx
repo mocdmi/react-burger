@@ -7,7 +7,7 @@ import { useNavigate, useLocation } from 'react-router-dom';
 
 import type { TForm } from '../types';
 import type { TLoginResponse } from '@/services/types';
-import type { LocationState } from '@/types';
+import type { TLocationState } from '@/types';
 
 type TUseLoginResult = {
   isLoading: boolean;
@@ -23,7 +23,7 @@ export const useLogin = (form: TForm): TUseLoginResult => {
   const location = useLocation();
   const [errorMessage, setErrorMessage] = useState<string | undefined>();
 
-  const state = location.state as LocationState;
+  const state = location.state as TLocationState;
   const from = state?.from?.pathname ?? '/';
 
   const sendForm = useCallback(async (): Promise<void> => {

@@ -19,6 +19,6 @@ export type TIngredient = {
 
 export type TConstructorIngredient = TIngredient & { uuid: string };
 
-export type LocationState = {
+export type TLocationState = {
   from?: Location;
 };

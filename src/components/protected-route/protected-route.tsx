@@ -1,9 +1,7 @@
 import { getCookie } from '@/utils/cookie';
 import { Navigate, Outlet, useLocation } from 'react-router-dom';
 
-type LocationState = {
-  from?: Location;
-};
+import type { TLocationState } from '@/types';
 
 type TProtectedRouteProps = {
   onlyUnAuth?: boolean;
@@ -14,7 +12,7 @@ export const ProtectedRoute = ({
 }: TProtectedRouteProps): React.JSX.Element => {
   const location = useLocation();
   const token = getCookie('accessToken');
-  const state = location.state as LocationState;
+  const state = location.state as TLocationState;
 
   if (onlyUnAuth && token) {
     const from = state?.from ?? { pathname: '/' };
