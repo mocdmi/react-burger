@@ -1,6 +1,6 @@
 import { useAppSelector } from '@/services/hooks/use-app-selector';
 import { getAllConstructorIngredients } from '@/services/selectors/ingredients-constructor';
-import { Button } from '@krgaa/react-developer-burger-ui-components';
+import { Button, Preloader } from '@krgaa/react-developer-burger-ui-components';
 
 import { ConstructorCard } from './components/constructor-card/constructor-card';
 import { ConstructorIngredients } from './components/constructor-ingredients/constructor-ingredients';
@@ -18,6 +18,11 @@ export const BurgerConstructor = (): React.JSX.Element => {
 
   return (
     <section className={styles.burger_constructor}>
+      {isLoading && (
+        <div className={styles.loader}>
+          <Preloader />
+        </div>
+      )}
       <ConstructorIngredients
         bun={bun}
         filling={filling}
@@ -35,7 +40,7 @@ export const BurgerConstructor = (): React.JSX.Element => {
             type="primary"
             htmlType={'button'}
             onClick={() => void handleSubmit()}
-            disabled={isLoading}
+            disabled={isLoading || !constructorIngredients.length}
           >
             Оформить заказ
           </Button>

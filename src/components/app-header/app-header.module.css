@@ -1,4 +1,5 @@
 .header {
+  width: 100%;
   background-color: var(--background);
 }
 
@@ -17,12 +18,6 @@
 
 .link {
   display: flex;
-  color: var(--text-inactive-color);
-  text-decoration: none;
-}
-
-.link_active {
-  color: var(--text-primary-color);
 }
 
 .link_position_last {

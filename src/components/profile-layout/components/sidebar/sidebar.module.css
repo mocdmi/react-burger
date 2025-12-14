@@ -1,0 +1,15 @@
+.sidebar {
+  display: flex;
+  flex: 0 1 320px;
+  flex-direction: column;
+  row-gap: calc(var(--offset-base-size) * 8);
+}
+
+.logout_button {
+  color: var(--text-inactive-color);
+  text-align: left;
+  background-color: transparent;
+  border: 0;
+  outline: none;
+  cursor: pointer;
+}

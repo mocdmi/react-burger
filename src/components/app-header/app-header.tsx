@@ -5,6 +5,8 @@ import {
   ProfileIcon,
 } from '@krgaa/react-developer-burger-ui-components';
 
+import { CustomLink } from '../custom-link/custom-link';
+
 import styles from './app-header.module.css';
 
 export const AppHeader = (): React.JSX.Element => {
@@ -12,23 +14,39 @@ export const AppHeader = (): React.JSX.Element => {
     <header className={styles.header}>
       <nav className={`${styles.menu} p-4`}>
         <div className={styles.menu_part_left}>
-          {/* Тут должны быть ссылки, а не например кнопки или абзацы */}
-          <a href="/" className={`${styles.link} ${styles.link_active}`}>
-            <BurgerIcon type="primary" />
-            <p className="text text_type_main-default ml-2">Конструктор</p>
-          </a>
-          <a href="/feed" className={`${styles.link} ml-10`}>
-            <ListIcon type="secondary" />
-            <p className="text text_type_main-default ml-2">Лента заказов</p>
-          </a>
+          <CustomLink to="/" extraClass={styles.link}>
+            {({ isActive }) => (
+              <>
+                <BurgerIcon type={isActive ? 'primary' : 'secondary'} />
+                <p className="text text_type_main-default ml-2">Конструктор</p>
+              </>
+            )}
+          </CustomLink>
+          <CustomLink to="/profile/orders" extraClass={`${styles.link} ml-10`}>
+            {({ isActive }) => (
+              <>
+                <ListIcon type={isActive ? 'primary' : 'secondary'} />
+                <p className="text text_type_main-default ml-2">Лента заказов</p>
+              </>
+            )}
+          </CustomLink>
         </div>
         <div className={styles.logo}>
-          <Logo />
+          <CustomLink to="/">
+            <Logo />
+          </CustomLink>
         </div>
-        <a href="/profile" className={`${styles.link} ${styles.link_position_last}`}>
-          <ProfileIcon type="secondary" />
-          <p className="text text_type_main-default ml-2">Личный кабинет</p>
-        </a>
+        <CustomLink
+          to="/profile"
+          extraClass={`${styles.link} ${styles.link_position_last}`}
+        >
+          {({ isActive }) => (
+            <>
+              <ProfileIcon type={isActive ? 'primary' : 'secondary'} />
+              <p className="text text_type_main-default ml-2">Личный кабинет</p>
+            </>
+          )}
+        </CustomLink>
       </nav>
     </header>
   );

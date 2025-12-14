@@ -1,0 +1,19 @@
+.custom_link {
+  text-decoration: none;
+}
+
+.default {
+  color: var(--text-inactive-color);
+}
+
+.primary {
+  color: #4c4cff;
+}
+
+.secondary {
+  color: var(--text-inactive-color);
+}
+
+.active {
+  color: #fff;
+}

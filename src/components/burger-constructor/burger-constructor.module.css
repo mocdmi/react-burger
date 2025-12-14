@@ -6,3 +6,16 @@
   padding-bottom: 20px;
   color: var(--text-primary-color);
 }
+
+.loader {
+  position: absolute;
+  top: 0;
+  bottom: calc(var(--offset-base-size) * 40);
+  left: 0;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}

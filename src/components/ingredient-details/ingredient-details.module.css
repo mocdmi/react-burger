@@ -15,3 +15,7 @@
   display: flex;
   column-gap: calc(var(--offset-base-size) * 8);
 }
+
+.title_center {
+  text-align: center;
+}
