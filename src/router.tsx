@@ -9,6 +9,7 @@ import { ForgotPasswordPage } from './pages/forgot-password/forgot-password';
 import { HomePage } from './pages/home/home';
 import { IngredientDetailsPage } from './pages/ingredient-details/ingredient-details';
 import { LoginPage } from './pages/login/login';
+import { NotFound } from './pages/not-found/not-found';
 import { OrderDetailsPage } from './pages/profile/order-details/order-details';
 import { OrdersPage } from './pages/profile/orders/orders';
 import { UserDetailsPage } from './pages/profile/user-details/user-details';
@@ -81,5 +82,9 @@ export const router = createBrowserRouter([
         ],
       },
     ],
+  },
+  {
+    path: '*',
+    Component: NotFound,
   },
 ]);
