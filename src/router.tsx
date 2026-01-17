@@ -2,7 +2,7 @@ import { createBrowserRouter } from 'react-router-dom';
 
 import { AuthLayout } from './components/auth-layout/auth-layout';
 import { Layout } from './components/layout/layout';
-import { ModalRoute } from './components/modal-route/modal-route';
+import { ModalIngredientRoute } from './components/modal-ingredient-route/modal-ingredient-route';
 import { ProfileLayout } from './components/profile-layout/profile-layout';
 import { ProtectedRoute } from './components/protected-route/protected-route';
 import { ForgotPasswordPage } from './pages/forgot-password/forgot-password';
@@ -25,7 +25,7 @@ export const router = createBrowserRouter([
         Component: HomePage,
       },
       {
-        Component: ModalRoute,
+        Component: ModalIngredientRoute,
         children: [
           {
             path: '/ingredients/:id',
