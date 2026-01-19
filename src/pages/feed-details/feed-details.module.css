@@ -1,0 +1,12 @@
+.feed_details {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+
+.content {
+  width: 100%;
+  max-width: 640px;
+}

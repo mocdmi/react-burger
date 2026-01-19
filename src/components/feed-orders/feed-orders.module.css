@@ -1,0 +1,17 @@
+.feed_orders {
+  flex: 1;
+  color: var(--text-primary-color);
+}
+
+.scrolled {
+  display: flex;
+  flex-direction: column;
+  row-gap: calc(var(--offset-base-size) * 4);
+  height: 100%;
+  overflow-y: auto;
+}
+
+.details_link {
+  color: inherit;
+  text-decoration: none;
+}

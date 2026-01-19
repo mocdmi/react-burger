@@ -5,6 +5,8 @@ import { Layout } from './components/layout/layout';
 import { ModalIngredientRoute } from './components/modal-ingredient-route/modal-ingredient-route';
 import { ProfileLayout } from './components/profile-layout/profile-layout';
 import { ProtectedRoute } from './components/protected-route/protected-route';
+import { FeedDetailsPage } from './pages/feed-details/feed-details';
+import { FeedPage } from './pages/feed/feed';
 import { ForgotPasswordPage } from './pages/forgot-password/forgot-password';
 import { HomePage } from './pages/home/home';
 import { IngredientDetailsPage } from './pages/ingredient-details/ingredient-details';
@@ -32,6 +34,14 @@ export const router = createBrowserRouter([
             Component: IngredientDetailsPage,
           },
         ],
+      },
+      {
+        path: '/feed',
+        Component: FeedPage,
+      },
+      {
+        path: '/feed/:id',
+        Component: FeedDetailsPage,
       },
       {
         Component: AuthLayout,

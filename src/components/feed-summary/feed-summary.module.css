@@ -1,0 +1,29 @@
+.feed_summary {
+  flex: 1;
+}
+
+.content {
+  display: grid;
+  grid-template: repeat(3, auto) / repeat(2, 1fr);
+  grid-template-areas:
+    'finished_numbers in_progress_numbers'
+    'finished_total finished_total'
+    'finished_today finished_today';
+  gap: calc(var(--offset-base-size) * 15) calc(var(--offset-base-size) * 9);
+}
+
+.finished_numbers {
+  grid-area: finished_numbers;
+}
+
+.in_progress_numbers {
+  grid-area: in_progress_numbers;
+}
+
+.finished_total {
+  grid-area: finished_total;
+}
+
+.finished_today {
+  grid-area: finished_today;
+}

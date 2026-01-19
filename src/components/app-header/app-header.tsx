@@ -22,7 +22,7 @@ export const AppHeader = (): React.JSX.Element => {
               </>
             )}
           </CustomLink>
-          <CustomLink to="/profile/orders" extraClass={`${styles.link} ml-10`}>
+          <CustomLink to="/feed" extraClass={`${styles.link} ml-10`}>
             {({ isActive }) => (
               <>
                 <ListIcon type={isActive ? 'primary' : 'secondary'} />

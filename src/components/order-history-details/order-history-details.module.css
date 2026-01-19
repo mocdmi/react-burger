@@ -1,0 +1,64 @@
+.order_history_details {
+  display: grid;
+  grid-template: repeat(6, auto) / 1fr max-content;
+  grid-template-areas:
+    'number number'
+    'name name'
+    'status status'
+    'ingredients_title ingredients_title'
+    'ingredients_list ingredients_list'
+    'date sum';
+  align-items: center;
+}
+
+.number {
+  grid-area: number;
+  text-align: center;
+}
+
+.name {
+  grid-area: name;
+}
+
+.status {
+  grid-area: status;
+}
+
+.finished {
+  color: #0cc;
+}
+
+.in_progress {
+  color: #fff;
+}
+
+.ingredients_title {
+  grid-area: ingredients_title;
+}
+
+.ingredients {
+  grid-area: ingredients_list;
+  min-height: calc(var(--offset-base-size) * 6);
+}
+
+.scrolled {
+  display: flex;
+  flex-direction: column;
+  row-gap: calc(var(--offset-base-size) * 4);
+  height: 100%;
+  padding: 0;
+  overflow-y: auto;
+  list-style: none;
+}
+
+.date {
+  grid-area: date;
+}
+
+.sum {
+  display: flex;
+  grid-area: sum;
+  align-items: center;
+  text-align: right;
+  column-gap: calc(var(--offset-base-size) * 2);
+}

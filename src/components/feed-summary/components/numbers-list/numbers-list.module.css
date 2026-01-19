@@ -1,0 +1,15 @@
+.numbers_list {
+  display: flex;
+  flex-direction: column;
+  row-gap: calc(var(--offset-base-size) * 2);
+  padding: 0;
+  list-style: none;
+}
+
+.finished {
+  color: #0cc;
+}
+
+.in_progress {
+  color: #fff;
+}
