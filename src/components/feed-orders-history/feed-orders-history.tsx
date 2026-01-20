@@ -3,19 +3,19 @@ import { Link } from 'react-router-dom';
 import type { TOrder } from '@/orders-history.mock';
 import type { ReactNode } from 'react';
 
-import styles from './feed-orders.module.css';
+import styles from './feed-orders-history.module.css';
 
-type TFeedOrdersProps = {
+type TFeedOrdersHistoryProps = {
   orders: TOrder[];
   renderOrderCard: (order: TOrder) => ReactNode;
 };
 
-export const FeedOrders = ({
+export const FeedOrdersHistory = ({
   orders,
   renderOrderCard,
-}: TFeedOrdersProps): React.JSX.Element => {
+}: TFeedOrdersHistoryProps): React.JSX.Element => {
   return (
-    <div className={`${styles.feed_orders} mb-10`}>
+    <div className={`${styles.feed_orders_history} mb-10`}>
       <div className={`${styles.scrolled} custom-scroll`}>
         {orders.map((order) => (
           <Link

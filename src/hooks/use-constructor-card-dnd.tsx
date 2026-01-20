@@ -1,7 +1,7 @@
 import { DRAG_ITEM_TYPES } from '@/const';
 import { useAppDispatch } from '@/services/hooks/use-app-dispatch';
 import { useAppSelector } from '@/services/hooks/use-app-selector';
-import { getAllConstructorIngredients } from '@/services/selectors/ingredients-constructor';
+import { getAllConstructorIngredients } from '@/services/selectors/ingredients-constructor-selectors';
 import { ingredientsConstructorActions } from '@/services/slices/ingredients-constructor-slice';
 import { useDrag, useDrop } from 'react-dnd';
 

@@ -1,0 +1,76 @@
+import type {
+  ActionCreatorWithoutPayload,
+  ActionCreatorWithPayload,
+  Middleware,
+} from '@reduxjs/toolkit';
+
+export type TWsActions<S = unknown, M = unknown> = {
+  connect: ActionCreatorWithPayload<string>;
+  disconnect: ActionCreatorWithoutPayload;
+  connected: ActionCreatorWithoutPayload;
+  disconnected: ActionCreatorWithoutPayload;
+  error: ActionCreatorWithPayload<string>;
+  send: ActionCreatorWithPayload<S>;
+  message: ActionCreatorWithPayload<M>;
+};
+
+export const createWebsocketMiddleware = <S = unknown, M = unknown>(
+  wsActions: TWsActions<S, M>,
+  isValidMessage: (data: unknown) => data is M
+): Middleware => {
+  let socket: WebSocket | null = null;
+
+  return (store) => (next) => (action) => {
+    if (wsActions.connect.match(action)) {
+      if (
+        socket &&
+        (socket.readyState === WebSocket.OPEN ||
+          socket.readyState === WebSocket.CONNECTING)
+      ) {
+        return next(action);
+      }
+
+      socket = new WebSocket(action.payload);
+
+      socket.onopen = (): void => {
+        store.dispatch(wsActions.connected());
+      };
+
+      socket.onclose = (): void => {
+        store.dispatch(wsActions.disconnected());
+      };
+
+      socket.onmessage = (event): void => {
+        try {
+          if (typeof event.data !== 'string') {
+            throw new Error('Response error');
+          }
+
+          const data: unknown = JSON.parse(event.data);
+
+          if (isValidMessage(data)) {
+            store.dispatch(wsActions.message(data));
+          }
+        } catch (err: unknown) {
+          const message = err instanceof Error ? err.message : 'WS data parse error';
+          console.log(message);
+        }
+      };
+
+      socket.onerror = (): void => {
+        store.dispatch(wsActions.error('WS error'));
+      };
+    }
+
+    if (wsActions.disconnect.match(action)) {
+      socket?.close();
+      socket = null;
+    }
+
+    if (wsActions.send.match(action)) {
+      socket?.send(JSON.stringify(action.payload));
+    }
+
+    return next(action);
+  };
+};

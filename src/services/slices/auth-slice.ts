@@ -8,7 +8,7 @@ const initialState: TUser = {
 };
 
 export const authSlice = createSlice({
-  name: 'authSlice',
+  name: 'auth',
   initialState,
   reducers: {
     setUser: (state, action: PayloadAction<TUser>) => {

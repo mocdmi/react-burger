@@ -22,3 +22,12 @@ export type TConstructorIngredient = TIngredient & { uuid: string };
 export type TLocationState = {
   from?: Location;
 };
+
+export type TOrdersHistory = {
+  _id: string;
+  ingredients: string[];
+  status: 'created' | 'pending' | 'done';
+  number: number;
+  createdAt: string;
+  updatedAt: string;
+};

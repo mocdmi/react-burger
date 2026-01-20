@@ -1,4 +1,4 @@
-import type { TIngredient } from '@/types';
+import type { TIngredient, TOrdersHistory } from '@/types';
 
 export type TUser = {
   user: {
@@ -124,4 +124,27 @@ export type TLogoutResponse = TLogoutOkResponse | TErrorResponse;
 
 export type TLogoutRequest = {
   token: string;
+};
+
+export type TGetOrdersHistoryWsRequest = {
+  message: string;
+};
+
+export type TGetOrdersHistoryWsResponse = {
+  success: true;
+  orders: TOrdersHistory[];
+  total: number;
+  totalToday: number;
+};
+
+export const isOrdersHistoryResponse = (
+  data: unknown
+): data is TGetOrdersHistoryWsResponse => {
+  if (typeof data !== 'object' && data !== null) {
+    return false;
+  }
+
+  const obj = data as Record<string, unknown>;
+
+  return obj.success === true && Array.isArray(obj.orders);
 };
