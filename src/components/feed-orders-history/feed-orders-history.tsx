@@ -1,5 +1,3 @@
-import { Link } from 'react-router-dom';
-
 import type { TOrdersHistory } from '@/types';
 import type { ReactNode } from 'react';
 
@@ -17,15 +15,7 @@ export const FeedOrdersHistory = ({
   return (
     <div className={`${styles.feed_orders_history} mb-10`}>
       <div className={`${styles.scrolled} custom-scroll`}>
-        {orders.map((order) => (
-          <Link
-            key={order._id}
-            to={`/feed/${order._id}`}
-            className={styles.details_link}
-          >
-            {renderOrderCard(order)}
-          </Link>
-        ))}
+        {orders.map((order) => renderOrderCard(order))}
       </div>
     </div>
   );

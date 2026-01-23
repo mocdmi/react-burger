@@ -6,7 +6,11 @@
   height: 100%;
 }
 
-.content {
+.preloader {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   width: 100%;
-  max-width: 640px;
+  height: 100%;
 }

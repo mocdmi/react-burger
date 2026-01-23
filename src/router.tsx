@@ -2,7 +2,8 @@ import { createBrowserRouter } from 'react-router-dom';
 
 import { AuthLayout } from './components/auth-layout/auth-layout';
 import { Layout } from './components/layout/layout';
-import { ModalIngredientRoute } from './components/modal-ingredient-route/modal-ingredient-route';
+import { ModalIngredientsDetailsRoute } from './components/modal-ingredients-details-route/modal-ingredients-details-route';
+import { ModalOrdersHistoryDetailsRoute } from './components/modal-orders-history-details-route/modal-orders-history-details-route';
 import { ProfileLayout } from './components/profile-layout/profile-layout';
 import { ProtectedRoute } from './components/protected-route/protected-route';
 import { FeedDetailsPage } from './pages/feed-details/feed-details';
@@ -27,7 +28,7 @@ export const router = createBrowserRouter([
         Component: HomePage,
       },
       {
-        Component: ModalIngredientRoute,
+        Component: ModalIngredientsDetailsRoute,
         children: [
           {
             path: '/ingredients/:id',
@@ -40,8 +41,13 @@ export const router = createBrowserRouter([
         Component: FeedPage,
       },
       {
-        path: '/feed/:id',
-        Component: FeedDetailsPage,
+        Component: ModalOrdersHistoryDetailsRoute,
+        children: [
+          {
+            path: '/feed/:id',
+            Component: FeedDetailsPage,
+          },
+        ],
       },
       {
         Component: AuthLayout,

@@ -9,10 +9,14 @@
     'ingredients_list ingredients_list'
     'date sum';
   align-items: center;
+  max-width: 640px;
 }
 
 .number {
   grid-area: number;
+}
+
+.number_center {
   text-align: center;
 }
 
@@ -24,11 +28,11 @@
   grid-area: status;
 }
 
-.finished {
+.done {
   color: #0cc;
 }
 
-.in_progress {
+.pending {
   color: #fff;
 }
 
@@ -46,6 +50,7 @@
   flex-direction: column;
   row-gap: calc(var(--offset-base-size) * 4);
   height: 100%;
+  max-height: 400px;
   padding: 0;
   overflow-y: auto;
   list-style: none;

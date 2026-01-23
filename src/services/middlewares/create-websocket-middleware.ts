@@ -27,7 +27,7 @@ export const createWebsocketMiddleware = <S = unknown, M = unknown>(
         (socket.readyState === WebSocket.OPEN ||
           socket.readyState === WebSocket.CONNECTING)
       ) {
-        return next(action);
+        return next(action); // Или делать close?
       }
 
       socket = new WebSocket(action.payload);
@@ -68,7 +68,11 @@ export const createWebsocketMiddleware = <S = unknown, M = unknown>(
     }
 
     if (wsActions.send.match(action)) {
-      socket?.send(JSON.stringify(action.payload));
+      if (socket?.readyState === WebSocket.OPEN) {
+        socket.send(JSON.stringify(action.payload));
+      } else {
+        console.warn('WS not open, message not sent');
+      }
     }
 
     return next(action);

@@ -5,26 +5,25 @@ import {
   FormattedDate,
 } from '@krgaa/react-developer-burger-ui-components';
 
+import type { TOrdersHistory } from '@/types';
+
 import styles from './orders-history-card.module.css';
 
 type TOrdersHistoryCard = {
-  name: string;
-  number: string;
-  createdAt: string;
-  ingredientsIds: string[];
+  order: TOrdersHistory;
+  onClick?: () => void;
 };
 
 export const OrdersHistoryCard = ({
-  name,
-  number,
-  createdAt,
-  ingredientsIds,
+  order,
+  onClick,
 }: TOrdersHistoryCard): React.JSX.Element => {
+  const { name, number, createdAt, ingredients: ingredientsIds } = order;
   const { ingredients, isLoading } = useGetIngredientsByIds(ingredientsIds);
   const sum = useGetOrderSum(ingredients);
 
   return (
-    <section className={`${styles.orders_history_card} p-6`}>
+    <section className={`${styles.orders_history_card} p-6`} onClick={onClick}>
       <div className={`${styles.number} text text_type_digits-default`}>#{number}</div>
       <FormattedDate
         date={new Date(createdAt)}
@@ -35,9 +34,9 @@ export const OrdersHistoryCard = ({
         {isLoading ? (
           <span className="text text_type_main-small">Загрузка...</span>
         ) : (
-          ingredients.map((ingredient) => (
-            <div key={ingredient._id} className={styles.ingredient_image}>
-              <img src={ingredient.image} alt="" />
+          ingredients.map(({ _id, image }) => (
+            <div key={_id} className={styles.ingredient_image}>
+              <img src={image} alt="" />
             </div>
           ))
         )}

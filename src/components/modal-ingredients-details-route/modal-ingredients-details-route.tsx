@@ -6,7 +6,7 @@ import { Outlet, useNavigate, useParams, useSearchParams } from 'react-router-do
 import { useModalActions } from '../modal/hooks/use-modal-actions';
 
 // Переделать, убрать search параметры и сделать универсальным
-export const ModalIngredientRoute = (): React.JSX.Element | null => {
+export const ModalIngredientsDetailsRoute = (): React.JSX.Element | null => {
   const { id } = useParams();
   const { data } = useGetAllIngredientsQuery();
   const { openModal } = useModalActions();
