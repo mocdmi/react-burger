@@ -5,13 +5,15 @@ import type { TIngredient } from '@/types';
 import styles from './orders-history-ingredients-card.module.css';
 
 type TOrdersIngredientsCardProps = {
-  ingredient: TIngredient & { count: number };
+  ingredient: TIngredient;
+  count: number;
 };
 
 export const OrdersHistoryIngredientsCard = ({
   ingredient,
+  count,
 }: TOrdersIngredientsCardProps): React.JSX.Element => {
-  const { image, name, price, count } = ingredient;
+  const { image, name, price } = ingredient;
 
   return (
     <section className={styles.orders_ingredients_card}>

@@ -6,7 +6,8 @@ import type { SerializedError } from '@reduxjs/toolkit';
 import type { FetchBaseQueryError } from '@reduxjs/toolkit/query';
 
 type TUseGetIngredientsByIdsResult = {
-  ingredients: (TIngredient & { count: number })[];
+  ingredients: TIngredient[];
+  ingredientsCountMap: Record<string, number>;
   isLoading: boolean;
   error: FetchBaseQueryError | SerializedError | undefined;
   isError: boolean;
@@ -15,23 +16,20 @@ type TUseGetIngredientsByIdsResult = {
 export const useGetIngredientsByIds = (ids: string[]): TUseGetIngredientsByIdsResult => {
   const { data, isLoading, error, isError } = useGetAllIngredientsQuery();
 
-  const ingredients = useMemo(() => {
-    if (!data?.data?.length || !ids.length) {
-      return [];
-    }
-
-    const countMap = ids.reduce<Record<string, number>>((acc, id) => {
+  const ingredientsCountMap = useMemo<Record<string, number>>(() => {
+    return ids.reduce<Record<string, number>>((acc, id) => {
       acc[id] = (acc[id] ?? 0) + 1;
       return acc;
     }, {});
+  }, [ids]);
 
-    return data.data
-      .filter((item) => countMap[item._id])
-      .map((item) => ({
-        ...item,
-        count: countMap[item._id],
-      }));
+  const ingredients = useMemo<TIngredient[]>(() => {
+    if (!data?.data || !ids.length) return [];
+
+    return ids
+      .map((id) => data.data.find((ingredient) => ingredient._id === id))
+      .filter((ingredient): ingredient is TIngredient => Boolean(ingredient));
   }, [data, ids]);
 
-  return { ingredients, isLoading, error, isError };
+  return { ingredients, ingredientsCountMap, isLoading, error, isError };
 };

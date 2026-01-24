@@ -1,5 +1,5 @@
 import { useGetIngredientsByIds } from '@/hooks/use-get-ingredients-by-ids';
-import { useGetOrderSum } from '@/hooks/use-get-order-sum';
+import { useGetOrderTotal } from '@/hooks/use-get-order-total';
 import {
   CurrencyIcon,
   FormattedDate,
@@ -19,8 +19,9 @@ export const OrdersHistoryCard = ({
   onClick,
 }: TOrdersHistoryCard): React.JSX.Element => {
   const { name, number, createdAt, ingredients: ingredientsIds } = order;
-  const { ingredients, isLoading } = useGetIngredientsByIds(ingredientsIds);
-  const sum = useGetOrderSum(ingredients);
+  const { ingredients, ingredientsCountMap, isLoading } =
+    useGetIngredientsByIds(ingredientsIds);
+  const total = useGetOrderTotal(ingredients);
 
   return (
     <section className={`${styles.orders_history_card} p-6`} onClick={onClick}>
@@ -34,15 +35,20 @@ export const OrdersHistoryCard = ({
         {isLoading ? (
           <span className="text text_type_main-small">Загрузка...</span>
         ) : (
-          ingredients.map(({ _id, image }) => (
-            <div key={_id} className={styles.ingredient_image}>
-              <img src={image} alt="" />
-            </div>
-          ))
+          Object.keys(ingredientsCountMap).map((id) => {
+            const ingredient = ingredients.find((item) => item._id === id);
+            if (!ingredient) return null;
+
+            return (
+              <div key={id} className={styles.ingredient_image}>
+                <img src={ingredient.image} alt="" />
+              </div>
+            );
+          })
         )}
       </div>
       <div className={styles.sum}>
-        <span className="text text_type_digits-default">{sum}</span>
+        <span className="text text_type_digits-default">{total}</span>
         <CurrencyIcon type="primary" />
       </div>
     </section>
