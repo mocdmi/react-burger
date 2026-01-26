@@ -35,7 +35,10 @@ export const useOrders = (): TUseOrdersResult => {
   useEffect(() => {
     if (token) {
       dispatch(
-        userOrdersHistoryWsConnect(`${API_WS_ORDER_HISTORY_USER}?token=${token}`)
+        userOrdersHistoryWsConnect({
+          url: `${API_WS_ORDER_HISTORY_USER}?token=${token}`,
+          withAuth: true,
+        })
       );
     }
     return (): void => {

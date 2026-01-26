@@ -2,9 +2,10 @@ import { createAction } from '@reduxjs/toolkit';
 
 import type { TGetOrdersHistoryWsRequest, TGetOrdersHistoryWsResponse } from '../types';
 
-export const allOrdersHistoryWsConnect = createAction<string>(
-  'allOrdersHistory/connect'
-);
+export const allOrdersHistoryWsConnect = createAction<{
+  url: string;
+  withAuth?: boolean;
+}>('allOrdersHistory/connect');
 export const allOrdersHistoryWsDisconnect = createAction('allOrdersHistory/disconnect');
 export const allOrdersHistoryWsConnected = createAction('allOrdersHistory/connected');
 export const allOrdersHistoryWsDisconnected = createAction(

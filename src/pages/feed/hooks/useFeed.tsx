@@ -33,7 +33,7 @@ export const useFeed = (): TFeedProps => {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    dispatch(allOrdersHistoryWsConnect(API_WS_ORDER_HISTORY_ALL));
+    dispatch(allOrdersHistoryWsConnect({ url: API_WS_ORDER_HISTORY_ALL }));
     return (): void => {
       dispatch(allOrdersHistoryWsDisconnect());
     };
