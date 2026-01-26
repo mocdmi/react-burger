@@ -1,25 +1,33 @@
-import { HomePage } from '@/pages/home/home';
 import { NotFound } from '@/pages/not-found/not-found';
 import { useGetAllIngredientsQuery } from '@/services/api/endpoints/ingredients-endpoints';
+import { Preloader } from '@krgaa/react-developer-burger-ui-components';
 import { useEffect, useMemo } from 'react';
-import { Outlet, useNavigate, useParams, useSearchParams } from 'react-router-dom';
+import { Outlet, useLocation, useNavigate, useParams } from 'react-router-dom';
 
 import { useModalActions } from '../modal/hooks/use-modal-actions';
 
-// Переделать, убрать search параметры и сделать универсальным
+import type { Location } from 'react-router-dom';
+
+import styles from './modal-ingredients-details-route.module.css';
+
+type TLocationState = {
+  backgroundLocation?: Location;
+};
+
 export const ModalIngredientsDetailsRoute = (): React.JSX.Element | null => {
   const { id } = useParams();
-  const { data } = useGetAllIngredientsQuery();
+  const { data, isLoading } = useGetAllIngredientsQuery();
   const { openModal } = useModalActions();
-  const [searchParams] = useSearchParams();
+  const location = useLocation();
   const navigate = useNavigate();
 
-  const modal = searchParams.get('modal');
+  const state = location.state as TLocationState | undefined;
+  const isModal = state?.backgroundLocation;
 
   const ingredient = useMemo(() => data?.data.find((i) => i._id === id), [data, id]);
 
   useEffect(() => {
-    if (modal && ingredient) {
+    if (isModal && ingredient) {
       openModal({
         modalType: 'ingredient-details',
         payload: ingredient,
@@ -28,13 +36,21 @@ export const ModalIngredientsDetailsRoute = (): React.JSX.Element | null => {
         },
       });
     }
-  }, [modal, ingredient, openModal]);
+  }, [ingredient, isModal, id, openModal, navigate]);
+
+  if (isModal) {
+    return null;
+  }
+
+  if (isLoading) {
+    return (
+      <div className={styles.preloader}>
+        <Preloader />
+      </div>
+    );
+  }
 
   if (!ingredient) return <NotFound />;
-
-  if (modal) {
-    return <HomePage />;
-  }
 
   return <Outlet context={{ ingredient }} />;
 };

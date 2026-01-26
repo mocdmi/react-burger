@@ -33,15 +33,17 @@ export const router = createBrowserRouter([
     Component: Layout,
     children: [
       {
-        index: true,
+        path: '/',
         Component: HomePage,
-      },
-      {
-        Component: ModalIngredientsDetailsRoute,
         children: [
           {
-            path: '/ingredients/:id',
-            Component: IngredientDetailsPage,
+            element: <ModalIngredientsDetailsRoute />,
+            children: [
+              {
+                path: '/ingredients/:id',
+                Component: IngredientDetailsPage,
+              },
+            ],
           },
         ],
       },
