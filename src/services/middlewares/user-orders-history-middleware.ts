@@ -29,4 +29,4 @@ const actions: TWsActions<TGetOrdersHistoryWsRequest, TGetOrdersHistoryWsRespons
 export const userOrdersHistoryMiddleware = createWebsocketMiddleware<
   TGetOrdersHistoryWsRequest,
   TGetOrdersHistoryWsResponse
->(actions, isOrdersHistoryResponse);
+>(actions, isOrdersHistoryResponse, true);
