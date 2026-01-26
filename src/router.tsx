@@ -6,18 +6,19 @@ import { ModalIngredientsDetailsRoute } from './components/modal-ingredients-det
 import { ModalOrdersHistoryDetailsRoute } from './components/modal-orders-history-details-route/modal-orders-history-details-route';
 import { ProfileLayout } from './components/profile-layout/profile-layout';
 import { ProtectedRoute } from './components/protected-route/protected-route';
-import { FeedDetailsPage } from './pages/feed-details/feed-details';
 import { FeedPage } from './pages/feed/feed';
 import { ForgotPasswordPage } from './pages/forgot-password/forgot-password';
 import { HomePage } from './pages/home/home';
 import { IngredientDetailsPage } from './pages/ingredient-details/ingredient-details';
 import { LoginPage } from './pages/login/login';
 import { NotFound } from './pages/not-found/not-found';
-import { OrderDetailsPage } from './pages/profile/order-details/order-details';
+import { OrdersHistoryDetailsPage } from './pages/orders-history-details/orders-history-details';
 import { OrdersPage } from './pages/profile/orders/orders';
 import { UserDetailsPage } from './pages/profile/user-details/user-details';
 import { RegisterPage } from './pages/register/register';
 import { ResetPasswordPage } from './pages/reset-password/reset-password';
+import { allOrdersHistory } from './services/selectors/all-orders-history-selectors';
+import { userOrdersHistory } from './services/selectors/user-orders-history-selectors';
 
 export const router = createBrowserRouter([
   {
@@ -41,11 +42,16 @@ export const router = createBrowserRouter([
         Component: FeedPage,
       },
       {
-        Component: ModalOrdersHistoryDetailsRoute,
+        element: (
+          <ModalOrdersHistoryDetailsRoute
+            ordersSelector={allOrdersHistory}
+            fallbackPage={<FeedPage />}
+          />
+        ),
         children: [
           {
             path: '/feed/:id',
-            Component: FeedDetailsPage,
+            Component: OrdersHistoryDetailsPage,
           },
         ],
       },
@@ -76,6 +82,30 @@ export const router = createBrowserRouter([
         ],
       },
       {
+        element: <ProtectedRoute />,
+        children: [
+          {
+            element: (
+              <ModalOrdersHistoryDetailsRoute
+                ordersSelector={userOrdersHistory}
+                fallbackPage={
+                  // Костыль, чтобы под модалкой нормально отображаллся ProfileLayout
+                  <ProfileLayout>
+                    <OrdersPage />
+                  </ProfileLayout>
+                }
+              />
+            ),
+            children: [
+              {
+                path: '/profile/orders/:id',
+                Component: OrdersHistoryDetailsPage,
+              },
+            ],
+          },
+        ],
+      },
+      {
         Component: ProfileLayout,
         children: [
           {
@@ -88,10 +118,6 @@ export const router = createBrowserRouter([
               {
                 path: '/profile/orders',
                 Component: OrdersPage,
-              },
-              {
-                path: '/profile/orders/:id',
-                Component: OrderDetailsPage,
               },
             ],
           },

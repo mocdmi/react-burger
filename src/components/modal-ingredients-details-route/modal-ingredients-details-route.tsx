@@ -1,4 +1,5 @@
 import { HomePage } from '@/pages/home/home';
+import { NotFound } from '@/pages/not-found/not-found';
 import { useGetAllIngredientsQuery } from '@/services/api/endpoints/ingredients-endpoints';
 import { useEffect, useMemo } from 'react';
 import { Outlet, useNavigate, useParams, useSearchParams } from 'react-router-dom';
@@ -29,7 +30,7 @@ export const ModalIngredientsDetailsRoute = (): React.JSX.Element | null => {
     }
   }, [modal, ingredient, openModal]);
 
-  if (!ingredient) return null; // 404 page
+  if (!ingredient) return <NotFound />;
 
   if (modal) {
     return <HomePage />;

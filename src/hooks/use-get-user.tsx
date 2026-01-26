@@ -13,5 +13,5 @@ export const useGetUser = (): void => {
     if (data?.success) {
       dispatch(authSliceActions.setUser(data));
     }
-  }, [data]);
+  }, [dispatch, data]);
 };

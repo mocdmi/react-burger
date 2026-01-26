@@ -1,9 +1,10 @@
 .orders_history_card {
   display: grid;
-  grid-template: repeat(3, auto) / repeat(3, 1fr) max-content;
+  grid-template: repeat(4, auto) / repeat(3, 1fr) max-content;
   grid-template-areas:
     'number number date date'
     'name name name name'
+    'status status status status'
     'ingredients_images ingredients_images ingredients_images sum';
   align-items: center;
   row-gap: calc(var(--offset-base-size) * 6);
@@ -30,7 +31,20 @@
   grid-area: ingredients_images;
 }
 
+.status {
+  grid-area: status;
+}
+
+.done {
+  color: #0cc;
+}
+
+.pending {
+  color: #fff;
+}
+
 .ingredient_image {
+  position: relative;
   width: 64px;
   height: 64px;
   padding: 2px;
@@ -50,7 +64,18 @@
   object-fit: contain;
 }
 
-.sum {
+.ingredient_more {
+  position: absolute;
+  inset: 2px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: rgb(28 28 33 / 60%);
+  border-radius: 50%;
+}
+
+.total {
   display: flex;
   grid-area: sum;
   align-items: center;

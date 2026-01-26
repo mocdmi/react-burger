@@ -22,22 +22,15 @@ export const createWebsocketMiddleware = <S = unknown, M = unknown>(
 
   return (store) => (next) => (action) => {
     if (wsActions.connect.match(action)) {
-      if (
-        socket &&
-        (socket.readyState === WebSocket.OPEN ||
-          socket.readyState === WebSocket.CONNECTING)
-      ) {
-        return next(action); // Или делать close?
+      if (socket) {
+        socket.close();
+        socket = null;
       }
 
       socket = new WebSocket(action.payload);
 
       socket.onopen = (): void => {
         store.dispatch(wsActions.connected());
-      };
-
-      socket.onclose = (): void => {
-        store.dispatch(wsActions.disconnected());
       };
 
       socket.onmessage = (event): void => {
@@ -60,11 +53,17 @@ export const createWebsocketMiddleware = <S = unknown, M = unknown>(
       socket.onerror = (): void => {
         store.dispatch(wsActions.error('WS error'));
       };
+
+      socket.onclose = (): void => {
+        store.dispatch(wsActions.disconnected());
+      };
     }
 
     if (wsActions.disconnect.match(action)) {
-      socket?.close();
-      socket = null;
+      if (socket) {
+        socket.close();
+        socket = null;
+      }
     }
 
     if (wsActions.send.match(action)) {

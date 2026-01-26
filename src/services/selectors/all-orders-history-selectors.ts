@@ -8,14 +8,14 @@ export const allOrdersHistory = createSelector(
   (orders): TOrdersHistory[] => orders ?? []
 );
 
-export const isOrdersHistoryWsConnected = (state: RootState): boolean =>
+export const isAllOrdersHistoryWsConnected = (state: RootState): boolean =>
   state.allOrdersHistory.connected;
 
-export const isOrdersHistoryWsMessageLoading = (state: RootState): boolean =>
+export const isAllOrdersHistoryWsMessageLoading = (state: RootState): boolean =>
   state.allOrdersHistory.isLoading;
 
-export const totalOrdersHistory = (state: RootState): number =>
+export const totalAllOrdersHistory = (state: RootState): number =>
   state.allOrdersHistory.messages?.total ?? 0;
 
-export const totalTodayOrdersHistory = (state: RootState): number =>
+export const totalTodayAllOrdersHistory = (state: RootState): number =>
   state.allOrdersHistory.messages?.totalToday ?? 0;

@@ -1,25 +1,16 @@
-import { FeedOrdersHistory } from '@/components/feed-orders-history/feed-orders-history';
 import { FeedSummary } from '@/components/feed-summary/feed-summary';
 import { OrdersHistoryCard } from '@/components/orders-history-card/orders-history-card';
-import { useAppSelector } from '@/services/hooks/use-app-selector';
-import {
-  allOrdersHistory,
-  isOrdersHistoryWsConnected,
-  isOrdersHistoryWsMessageLoading,
-  totalOrdersHistory,
-  totalTodayOrdersHistory,
-} from '@/services/selectors/all-orders-history-selectors';
+import { OrdersHistory } from '@/components/orders-history/orders-history';
 import { Preloader } from '@krgaa/react-developer-burger-ui-components';
 import { useNavigate } from 'react-router-dom';
+
+import { useFeed } from './hooks/useFeed';
 
 import styles from './feed.module.css';
 
 export const FeedPage = (): React.JSX.Element => {
-  const orders = useAppSelector(allOrdersHistory);
-  const totalTodayOrders = useAppSelector(totalTodayOrdersHistory);
-  const totalOrders = useAppSelector(totalOrdersHistory);
-  const isConnected = useAppSelector(isOrdersHistoryWsConnected);
-  const isMessageLoading = useAppSelector(isOrdersHistoryWsMessageLoading);
+  const { orders, totalTodayOrders, totalOrders, isConnected, isMessageLoading } =
+    useFeed();
   const navigate = useNavigate();
 
   return (
@@ -34,7 +25,7 @@ export const FeedPage = (): React.JSX.Element => {
           <span className="text text_type_main-small">Заказов нет</span>
         ) : (
           <>
-            <FeedOrdersHistory
+            <OrdersHistory
               orders={orders}
               renderOrdersHistoryCard={(order) => (
                 <OrdersHistoryCard

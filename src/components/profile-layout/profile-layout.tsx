@@ -3,6 +3,7 @@ import { Outlet } from 'react-router-dom';
 import { Sidebar } from './components/sidebar/sidebar';
 
 import type { TDescription } from './components/sidebar/types';
+import type { ReactNode } from 'react';
 
 import styles from './profile-layout.module.css';
 
@@ -17,7 +18,11 @@ const descriptionMap: TDescription[] = [
   },
 ];
 
-export const ProfileLayout = (): React.JSX.Element => {
+export const ProfileLayout = ({
+  children,
+}: {
+  children?: ReactNode;
+}): React.JSX.Element => {
   return (
     <div className={styles.profile_layout}>
       <Sidebar
@@ -33,7 +38,7 @@ export const ProfileLayout = (): React.JSX.Element => {
         ]}
         descriptions={descriptionMap}
       />
-      <Outlet />
+      {children ?? <Outlet />}
     </div>
   );
 };

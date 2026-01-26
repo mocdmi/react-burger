@@ -23,7 +23,7 @@ const initialState: TAllOrdersHistorySliceState = {
   messages: null,
 };
 
-const allOrdersHistorySlice = createSlice({
+export const allOrdersHistorySlice = createSlice({
   name: 'allOrdersHistory',
   initialState,
   reducers: {},

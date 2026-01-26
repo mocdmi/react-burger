@@ -1,14 +1,25 @@
-import { FeedPage } from '@/pages/feed/feed';
+import { NotFound } from '@/pages/not-found/not-found';
 import { useAppSelector } from '@/services/hooks/use-app-selector';
-import { allOrdersHistory } from '@/services/selectors/all-orders-history-selectors';
 import { useEffect, useMemo } from 'react';
 import { Outlet, useNavigate, useParams, useSearchParams } from 'react-router-dom';
 
 import { useModalActions } from '../modal/hooks/use-modal-actions';
 
-export const ModalOrdersHistoryDetailsRoute = (): React.JSX.Element | null => {
+import type { RootState } from '@/services/store';
+import type { TOrdersHistory } from '@/types';
+
+type TModalOrdersHistoryDetailsRouteProps = {
+  ordersSelector: (state: RootState) => TOrdersHistory[];
+  fallbackPage: React.JSX.Element;
+};
+
+// Переделать, убрать search параметры и сделать универсальным
+export const ModalOrdersHistoryDetailsRoute = ({
+  ordersSelector,
+  fallbackPage,
+}: TModalOrdersHistoryDetailsRouteProps): React.JSX.Element | null => {
   const { id } = useParams();
-  const orders = useAppSelector(allOrdersHistory);
+  const orders = useAppSelector(ordersSelector);
   const { openModal } = useModalActions();
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
@@ -29,10 +40,10 @@ export const ModalOrdersHistoryDetailsRoute = (): React.JSX.Element | null => {
     }
   }, [modal, order, openModal]);
 
-  if (!order) return null; // 404 page
+  if (!order) return <NotFound />;
 
   if (modal) {
-    return <FeedPage />;
+    return fallbackPage;
   }
 
   return <Outlet context={{ order }} />;
