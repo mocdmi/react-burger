@@ -17,8 +17,16 @@ import { OrdersPage } from './pages/profile/orders/orders';
 import { UserDetailsPage } from './pages/profile/user-details/user-details';
 import { RegisterPage } from './pages/register/register';
 import { ResetPasswordPage } from './pages/reset-password/reset-password';
-import { allOrdersHistory } from './services/selectors/all-orders-history-selectors';
-import { userOrdersHistory } from './services/selectors/user-orders-history-selectors';
+import {
+  allOrdersHistory,
+  isAllOrdersHistoryWsConnected,
+  isAllOrdersHistoryWsMessageLoading,
+} from './services/selectors/all-orders-history-selectors';
+import {
+  userOrdersHistory,
+  isUserOrdersHistoryWsConnected,
+  isUserOrdersHistoryWsMessageLoading,
+} from './services/selectors/user-orders-history-selectors';
 
 export const router = createBrowserRouter([
   {
@@ -40,18 +48,21 @@ export const router = createBrowserRouter([
       {
         path: '/feed',
         Component: FeedPage,
-      },
-      {
-        element: (
-          <ModalOrdersHistoryDetailsRoute
-            ordersSelector={allOrdersHistory}
-            fallbackPage={<FeedPage />}
-          />
-        ),
         children: [
           {
-            path: '/feed/:id',
-            Component: OrdersHistoryDetailsPage,
+            element: (
+              <ModalOrdersHistoryDetailsRoute
+                ordersSelector={allOrdersHistory}
+                isConnectedSelector={isAllOrdersHistoryWsConnected}
+                isMessageLoadingSelector={isAllOrdersHistoryWsMessageLoading}
+              />
+            ),
+            children: [
+              {
+                path: '/feed/:id',
+                Component: OrdersHistoryDetailsPage,
+              },
+            ],
           },
         ],
       },
@@ -82,30 +93,6 @@ export const router = createBrowserRouter([
         ],
       },
       {
-        element: <ProtectedRoute />,
-        children: [
-          {
-            element: (
-              <ModalOrdersHistoryDetailsRoute
-                ordersSelector={userOrdersHistory}
-                fallbackPage={
-                  // Костыль, чтобы под модалкой нормально отображаллся ProfileLayout
-                  <ProfileLayout>
-                    <OrdersPage />
-                  </ProfileLayout>
-                }
-              />
-            ),
-            children: [
-              {
-                path: '/profile/orders/:id',
-                Component: OrdersHistoryDetailsPage,
-              },
-            ],
-          },
-        ],
-      },
-      {
         Component: ProfileLayout,
         children: [
           {
@@ -118,6 +105,23 @@ export const router = createBrowserRouter([
               {
                 path: '/profile/orders',
                 Component: OrdersPage,
+                children: [
+                  {
+                    element: (
+                      <ModalOrdersHistoryDetailsRoute
+                        ordersSelector={userOrdersHistory}
+                        isConnectedSelector={isUserOrdersHistoryWsConnected}
+                        isMessageLoadingSelector={isUserOrdersHistoryWsMessageLoading}
+                      />
+                    ),
+                    children: [
+                      {
+                        path: '/profile/orders/:id',
+                        Component: OrdersHistoryDetailsPage,
+                      },
+                    ],
+                  },
+                ],
               },
             ],
           },

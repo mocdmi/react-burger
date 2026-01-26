@@ -1,5 +1,6 @@
 import { NotFound } from '@/pages/not-found/not-found';
 import { useAppSelector } from '@/services/hooks/use-app-selector';
+import { Preloader } from '@krgaa/react-developer-burger-ui-components';
 import { useEffect, useMemo } from 'react';
 import { Outlet, useNavigate, useParams, useSearchParams } from 'react-router-dom';
 
@@ -8,18 +9,24 @@ import { useModalActions } from '../modal/hooks/use-modal-actions';
 import type { RootState } from '@/services/store';
 import type { TOrdersHistory } from '@/types';
 
+import styles from './modal-orders-history-details-route.module.css';
+
 type TModalOrdersHistoryDetailsRouteProps = {
   ordersSelector: (state: RootState) => TOrdersHistory[];
-  fallbackPage: React.JSX.Element;
+  isConnectedSelector: (state: RootState) => boolean;
+  isMessageLoadingSelector: (state: RootState) => boolean;
 };
 
 // Переделать, убрать search параметры и сделать универсальным
 export const ModalOrdersHistoryDetailsRoute = ({
   ordersSelector,
-  fallbackPage,
+  isConnectedSelector,
+  isMessageLoadingSelector,
 }: TModalOrdersHistoryDetailsRouteProps): React.JSX.Element | null => {
   const { id } = useParams();
   const orders = useAppSelector(ordersSelector);
+  const isConnected = useAppSelector(isConnectedSelector);
+  const isMessageLoading = useAppSelector(isMessageLoadingSelector);
   const { openModal } = useModalActions();
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
@@ -38,12 +45,20 @@ export const ModalOrdersHistoryDetailsRoute = ({
         },
       });
     }
-  }, [modal, order, openModal]);
+  }, [modal, id, openModal, navigate]);
+
+  if (!isConnected || isMessageLoading) {
+    return (
+      <div className={styles.preloader}>
+        <Preloader />
+      </div>
+    );
+  }
 
   if (!order) return <NotFound />;
 
   if (modal) {
-    return fallbackPage;
+    return null;
   }
 
   return <Outlet context={{ order }} />;
