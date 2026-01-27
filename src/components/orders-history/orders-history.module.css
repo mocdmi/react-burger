@@ -1,0 +1,12 @@
+.orders_history {
+  flex: 1;
+  color: var(--text-primary-color);
+}
+
+.scrolled {
+  display: flex;
+  flex-direction: column;
+  row-gap: calc(var(--offset-base-size) * 4);
+  height: 100%;
+  overflow-y: auto;
+}

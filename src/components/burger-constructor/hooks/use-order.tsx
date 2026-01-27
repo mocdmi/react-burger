@@ -1,9 +1,10 @@
 import { useModalActions } from '@/components/modal/hooks/use-modal-actions';
+import { useGetOrderTotal } from '@/hooks/use-get-order-total';
 import { useCreateOrderMutation } from '@/services/api/endpoints/order-endpoints';
 import { useAppDispatch } from '@/services/hooks/use-app-dispatch';
 import { ingredientsConstructorActions } from '@/services/slices/ingredients-constructor-slice';
 import { isAuth } from '@/utils/is-auth';
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import type { TConstructorIngredient } from '@/types';
@@ -22,18 +23,7 @@ export const useOrder = (ingredients: TConstructorIngredient[]): TUseOrderResult
   const [createOrder, { isLoading, isError }] = useCreateOrderMutation();
   const [errorMessage, setErrorMessage] = useState<string | undefined>();
   const navigate = useNavigate();
-
-  const total = useMemo(
-    () =>
-      ingredients.reduce((acc, ingredient) => {
-        if (ingredient.type === 'bun') {
-          return acc + ingredient.price * 2;
-        }
-
-        return acc + ingredient.price;
-      }, 0),
-    [ingredients]
-  );
+  const total = useGetOrderTotal(ingredients);
 
   const handleSubmit = useCallback(async (): Promise<void> => {
     setErrorMessage(undefined);

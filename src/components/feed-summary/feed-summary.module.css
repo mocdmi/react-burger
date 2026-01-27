@@ -1,0 +1,29 @@
+.feed_summary {
+  flex: 1;
+}
+
+.content {
+  display: grid;
+  grid-template: repeat(3, auto) / repeat(2, 1fr);
+  grid-template-areas:
+    'done_numbers pending_numbers'
+    'done_total done_total'
+    'done_today done_today';
+  gap: calc(var(--offset-base-size) * 15) calc(var(--offset-base-size) * 9);
+}
+
+.done_numbers {
+  grid-area: done_numbers;
+}
+
+.pending_numbers {
+  grid-area: pending_numbers;
+}
+
+.done_total {
+  grid-area: done_total;
+}
+
+.done_today {
+  grid-area: done_today;
+}

@@ -1,4 +1,5 @@
-import { Outlet } from 'react-router-dom';
+import { useDirectNavigation } from '@/hooks/use-direct-navigation';
+import { Outlet, useParams } from 'react-router-dom';
 
 import { Sidebar } from './components/sidebar/sidebar';
 
@@ -18,6 +19,14 @@ const descriptionMap: TDescription[] = [
 ];
 
 export const ProfileLayout = (): React.JSX.Element => {
+  const { id } = useParams();
+  const { isDirectNavigation } = useDirectNavigation(!!id);
+
+  // Если это прямой переход на детали заказа - не показываем sidebar
+  if (isDirectNavigation) {
+    return <Outlet />;
+  }
+
   return (
     <div className={styles.profile_layout}>
       <Sidebar

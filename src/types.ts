@@ -22,3 +22,22 @@ export type TConstructorIngredient = TIngredient & { uuid: string };
 export type TLocationState = {
   from?: Location;
 };
+
+export const ORDER_HISTORY_STATUS_MAP = {
+  pending: 'В работе',
+  done: 'Готов',
+} as const;
+
+export type TOrdersHistoryStatus = keyof typeof ORDER_HISTORY_STATUS_MAP;
+export type TOrdersHistoryStatusLabel =
+  (typeof ORDER_HISTORY_STATUS_MAP)[TOrdersHistoryStatus];
+
+export type TOrdersHistory = {
+  _id: string;
+  ingredients: string[];
+  status: TOrdersHistoryStatus;
+  number: string;
+  name: string;
+  createdAt: string;
+  updatedAt: string;
+};

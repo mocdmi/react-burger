@@ -1,7 +1,7 @@
 import { useGetAllIngredientsQuery } from '@/services/api/endpoints/ingredients-endpoints';
 import { getErrorData } from '@/services/api/utils/get-error-data';
 import { Preloader } from '@krgaa/react-developer-burger-ui-components';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 import { GroupsTabs } from './components/groups-tabs/groups-tabs';
 import { IngredientsCard } from './components/ingredients-card/ingredients-card';
@@ -22,6 +22,7 @@ export const BurgerIngredients = (): React.JSX.Element => {
     useIngredientsTabs(groupedIngredients);
   const { ingredientCounts } = useIngredientsCounter();
   const navigate = useNavigate();
+  const location = useLocation();
 
   const errorData = getErrorData<TCreateOrderResponse>(error);
   const errorMessage =
@@ -53,7 +54,9 @@ export const BurgerIngredients = (): React.JSX.Element => {
                     ingredient={ingredient}
                     count={ingredientCounts[ingredient._id]}
                     onClick={() => {
-                      void navigate(`/ingredients/${ingredient._id}?modal=true`);
+                      void navigate(`/ingredients/${ingredient._id}`, {
+                        state: { backgroundLocation: location },
+                      });
                     }}
                   />
                 )}

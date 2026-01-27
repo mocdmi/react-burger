@@ -1,5 +1,5 @@
 import { useAppSelector } from '@/services/hooks/use-app-selector';
-import { getAllConstructorIngredients } from '@/services/selectors/ingredients-constructor';
+import { getAllConstructorIngredients } from '@/services/selectors/ingredients-constructor-selectors';
 import { Button, Preloader } from '@krgaa/react-developer-burger-ui-components';
 
 import { ConstructorCard } from './components/constructor-card/constructor-card';

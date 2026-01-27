@@ -1,12 +1,13 @@
 import { API_URL } from '@/const';
 import { authSliceActions } from '@/services/slices/auth-slice';
-import { deleteCookie, getCookie, setCookie } from '@/utils/cookie';
+import { deleteCookie, getCookie } from '@/utils/cookie';
+import { refreshToken } from '@/utils/refresh-token';
 import { fetchBaseQuery } from '@reduxjs/toolkit/query';
 
 import { authApi } from '../endpoints/auth-endpoints';
 import { getErrorData } from './get-error-data';
 
-import type { TErrorResponse, TTokenRefreshResponse } from '@/services/types';
+import type { TErrorResponse } from '@/services/types';
 import type {
   BaseQueryFn,
   FetchArgs,
@@ -26,10 +27,6 @@ const baseQuery = fetchBaseQuery({
   },
 });
 
-const baseQueryWithoutAuth = fetchBaseQuery({
-  baseUrl: API_URL,
-});
-
 export const baseQueryWithReAuth: BaseQueryFn<
   string | FetchArgs,
   unknown,
@@ -39,35 +36,23 @@ export const baseQueryWithReAuth: BaseQueryFn<
   const error = getErrorData<TErrorResponse>(result.error);
 
   if (error?.message === 'jwt expired') {
-    const refreshToken = localStorage.getItem('refreshToken');
+    const storedRefreshToken = localStorage.getItem('refreshToken');
 
-    if (!refreshToken) {
+    if (!storedRefreshToken) {
       api.dispatch(authSliceActions.logout());
       deleteCookie('accessToken');
       localStorage.removeItem('refreshToken');
       return result;
     }
 
-    const refreshResult = await baseQueryWithoutAuth(
-      {
-        url: '/auth/token',
-        method: 'POST',
-        body: {
-          token: refreshToken,
-        },
-      },
-      api,
-      extraOptions
-    );
+    const refreshResult = await refreshToken();
 
-    const data = refreshResult.data as TTokenRefreshResponse;
-
-    if (data?.success) {
-      setCookie('accessToken', data.accessToken, { path: '/' });
-      localStorage.setItem('refreshToken', data.refreshToken);
+    if (refreshResult.success) {
       result = await baseQuery(args, api, extraOptions);
     } else {
-      await api.dispatch(authApi.endpoints.logout.initiate({ token: refreshToken }));
+      await api.dispatch(
+        authApi.endpoints.logout.initiate({ token: storedRefreshToken })
+      );
     }
   }
 

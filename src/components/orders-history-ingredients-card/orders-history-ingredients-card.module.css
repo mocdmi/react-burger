@@ -1,0 +1,33 @@
+.orders_ingredients_card {
+  display: flex;
+  align-items: center;
+  column-gap: calc(var(--offset-base-size) * 4);
+}
+
+.ingredient_image {
+  width: 64px;
+  height: 64px;
+  padding: 2px;
+  background: linear-gradient(63.18deg, #801ab3 0%, #4c4cff 100%);
+  border-radius: 50%;
+}
+
+.ingredient_image img {
+  width: 100%;
+  height: 100%;
+  background: #131316; /* если нужен фон */
+  border-radius: 50%;
+  object-fit: contain;
+}
+
+.name {
+  flex: 1;
+}
+
+.sum {
+  display: flex;
+  grid-area: sum;
+  align-items: center;
+  text-align: right;
+  column-gap: calc(var(--offset-base-size) * 2);
+}

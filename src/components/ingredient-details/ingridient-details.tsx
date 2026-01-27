@@ -16,7 +16,7 @@ export const IngredientDetails = ({
   const { name, image_large, calories, proteins, fat, carbohydrates } = payload;
 
   return (
-    <div className="pt-10 pb-15 pl-10 pr-10">
+    <section className="pt-10 pb-15 pl-10 pr-10">
       <h2
         className={`${titleCenter ? styles.title_center : ''} text text_type_main-large`}
       >
@@ -32,6 +32,6 @@ export const IngredientDetails = ({
           <IngredientNutrion title="Углеводы, г" value={carbohydrates} />
         </div>
       </div>
-    </div>
+    </section>
   );
 };

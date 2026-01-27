@@ -2,7 +2,7 @@ import { useUpdateUserMutation } from '@/services/api/endpoints/auth-endpoints';
 import { getErrorData } from '@/services/api/utils/get-error-data';
 import { useAppDispatch } from '@/services/hooks/use-app-dispatch';
 import { useAppSelector } from '@/services/hooks/use-app-selector';
-import { getUser } from '@/services/selectors/user';
+import { getUser } from '@/services/selectors/user-selectors';
 import { authSliceActions } from '@/services/slices/auth-slice';
 import { useState, useCallback, useMemo } from 'react';
 
