@@ -1,16 +1,18 @@
 import { describe, expect, it } from 'vitest';
 
-import { authSliceActions, authReducer } from '@services/slices/auth-slice.ts';
+import {
+  authSlice,
+  authSliceActions,
+  authReducer,
+} from '@services/slices/auth-slice.ts';
 
 import type { TUser } from '@services/types.ts';
 
 describe('authReducer', () => {
-  const initialState: TUser = {
-    user: null,
-  };
-
   it('должен вернуть начальное состояние', () => {
-    expect(authReducer(undefined, { type: '@@INIT' })).toEqual(initialState);
+    expect(authReducer(undefined, { type: '@@INIT' })).toEqual(
+      authSlice.getInitialState()
+    );
   });
 
   describe('setUser', () => {
@@ -22,7 +24,7 @@ describe('authReducer', () => {
         },
       };
 
-      const nextState = authReducer(initialState, authSliceActions.setUser(userData));
+      const nextState = authReducer({ user: null }, authSliceActions.setUser(userData));
 
       expect(nextState.user).toEqual({
         email: 'test@example.com',

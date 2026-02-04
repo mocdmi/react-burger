@@ -1,87 +1,30 @@
+import { MODAL_CONTENT, SELECTORS } from '../selectors';
+
+import type {
+  TGetAllIngredientsResponse,
+  TCreateOrderResponse,
+  TUserResponse,
+  TTokenRefreshResponse,
+} from '@services/types';
+
 describe('HomePage', () => {
-  const mockIngredients = [
-    {
-      _id: 'bun-1',
-      name: 'Краторная булка N-200i',
-      type: 'bun',
-      proteins: 80,
-      fat: 24,
-      carbohydrates: 53,
-      calories: 420,
-      price: 1255,
-      image: 'https://code.s3.yandex.net/react/burger-2.png',
-      image_large: 'https://code.s3.yandex.net/react/burger-2-large.png',
-      image_mobile: 'https://code.s3.yandex.net/react/burger-2-mobile.png',
-      __v: 0,
-    },
-    {
-      _id: 'main-1',
-      name: 'Биокотлета из марсианской Магнолии',
-      type: 'main',
-      proteins: 420,
-      fat: 142,
-      carbohydrates: 242,
-      calories: 4242,
-      price: 424,
-      image: 'https://code.s3.yandex.net/react/burger-3.png',
-      image_large: 'https://code.s3.yandex.net/react/burger-3-large.png',
-      image_mobile: 'https://code.s3.yandex.net/react/burger-3-mobile.png',
-      __v: 0,
-    },
-    {
-      _id: 'sauce-1',
-      name: 'Соус Spicy-X',
-      type: 'sauce',
-      proteins: 30,
-      fat: 20,
-      carbohydrates: 40,
-      calories: 30,
-      price: 90,
-      image: 'https://code.s3.yandex.net/react/burger-5.png',
-      image_large: 'https://code.s3.yandex.net/react/burger-5-large.png',
-      image_mobile: 'https://code.s3.yandex.net/react/burger-5-mobile.png',
-      __v: 0,
-    },
-  ];
-
   beforeEach(() => {
-    cy.intercept('GET', '**/api/ingredients', {
-      statusCode: 200,
-      body: {
-        success: true,
-        data: mockIngredients,
-      },
-    }).as('getIngredients');
+    cy.fixture<TGetAllIngredientsResponse>('ingredients.json').then(
+      (ingredientsData) => {
+        cy.intercept('GET', '**/api/ingredients', ingredientsData).as('getIngredients');
+      }
+    );
 
-    cy.intercept('POST', '**/api/orders', {
-      statusCode: 200,
-      body: {
-        success: true,
-        name: 'Space бургер',
-        order: {
-          number: 12345,
-        },
-      },
-    }).as('createOrder');
-
-    cy.intercept('GET', '**/api/auth/user', {
-      statusCode: 200,
-      body: {
-        success: true,
-        user: {
-          email: 'test@test.com',
-          name: 'Test User',
-        },
-      },
+    cy.fixture<TCreateOrderResponse>('order.json').then((orderData) => {
+      cy.intercept('POST', '**/api/orders', orderData).as('createOrder');
     });
 
-    cy.intercept('POST', '**/api/auth/token', {
-      statusCode: 200,
-      body: {
-        success: true,
-        accessToken: 'Bearer test-token',
-        refreshToken: 'test-refresh-token',
-      },
+    cy.fixture<TUserResponse>('user.json').then((userData) => {
+      cy.intercept('GET', '**/api/auth/user', userData);
+    });
+
+    cy.fixture<TTokenRefreshResponse>('token.json').then((tokenData) => {
+      cy.intercept('POST', '**/api/auth/token', tokenData);
     });
 
     cy.visit('/');
@@ -90,66 +33,66 @@ describe('HomePage', () => {
 
   describe('Перетаскивание ингредиентов', () => {
     it('должен добавить булку в конструктор при перетаскивании в drop zone', () => {
-      cy.contains('Краторная булка N-200i').drag({
-        position: '[data-cy="drop-zone-bun"]',
+      cy.contains(SELECTORS.INGREDIENT_BUN).drag({
+        position: SELECTORS.DROP_ZONE_BUN,
       });
 
-      cy.contains('Краторная булка N-200i').should('exist');
+      cy.contains(SELECTORS.INGREDIENT_BUN).should('exist');
     });
 
     it('должен добавить начинку в конструктор при перетаскивании в drop zone', () => {
-      cy.contains('Биокотлета из марсианской Магнолии').drag({
-        position: '[data-cy="drop-zone-filling"]',
+      cy.contains(SELECTORS.INGREDIENT_FILLING).drag({
+        position: SELECTORS.DROP_ZONE_FILLING,
       });
 
-      cy.contains('Биокотлета из марсианской Магнолии').should('exist');
+      cy.contains(SELECTORS.INGREDIENT_FILLING).should('exist');
     });
 
     it('должен добавить несколько ингредиентов в конструктор', () => {
-      cy.contains('Краторная булка N-200i').drag({
-        position: '[data-cy="drop-zone-bun"]',
+      cy.contains(SELECTORS.INGREDIENT_BUN).drag({
+        position: SELECTORS.DROP_ZONE_BUN,
       });
-      cy.contains('Биокотлета из марсианской Магнолии').drag({
-        position: '[data-cy="drop-zone-filling"]',
+      cy.contains(SELECTORS.INGREDIENT_FILLING).drag({
+        position: SELECTORS.DROP_ZONE_FILLING,
       });
-      cy.contains('Соус Spicy-X').drag({ position: '[data-cy="drop-zone-filling"]' });
+      cy.contains(SELECTORS.INGREDIENT_SAUCE).drag({
+        position: SELECTORS.DROP_ZONE_FILLING,
+      });
 
-      cy.contains('Краторная булка N-200i').should('exist');
-      cy.contains('Биокотлета из марсианской Магнолии').should('exist');
-      cy.contains('Соус Spicy-X').should('exist');
+      cy.contains(SELECTORS.INGREDIENT_BUN).should('exist');
+      cy.contains(SELECTORS.INGREDIENT_FILLING).should('exist');
+      cy.contains(SELECTORS.INGREDIENT_SAUCE).should('exist');
     });
   });
 
   describe('Модальное окно ингредиента', () => {
-    it('должен открыть модальное окно с деталями ингредиента при клике', () => {
-      cy.contains('Биокотлета из марсианской Магнолии').click();
+    beforeEach(() => {
+      cy.contains(SELECTORS.INGREDIENT_FILLING).click();
+      cy.get(SELECTORS.MODAL).as('ingredientModal');
+    });
 
-      cy.get('[data-cy="modal"]').should('be.visible');
-      cy.contains('Детали ингредиента').should('be.visible');
+    it('должен открыть модальное окно с деталями ингредиента при клике', () => {
+      cy.get('@ingredientModal').should('be.visible');
+      cy.contains(MODAL_CONTENT.INGREDIENT_DETAILS_TITLE).should('be.visible');
     });
 
     it('должен отображать правильные данные ингредиента в модальном окне', () => {
-      cy.contains('Биокотлета из марсианской Магнолии').click();
-
-      cy.get('[data-cy="modal"]').within(() => {
-        cy.contains('Биокотлета из марсианской Магнолии').should('be.visible');
-        cy.contains('Калории,ккал').should('be.visible');
-        cy.contains('4242').should('be.visible');
-        cy.contains('Белки, г').should('be.visible');
-        cy.contains('420').should('be.visible');
-        cy.contains('Жиры, г').should('be.visible');
-        cy.contains('142').should('be.visible');
-        cy.contains('Углеводы, г').should('be.visible');
-        cy.contains('242').should('be.visible');
+      cy.get('@ingredientModal').within(() => {
+        cy.contains(SELECTORS.INGREDIENT_FILLING).should('be.visible');
+        cy.contains(MODAL_CONTENT.CALORIES).should('be.visible');
+        cy.contains(MODAL_CONTENT.CALORIES_VALUE).should('be.visible');
+        cy.contains(MODAL_CONTENT.PROTEINS).should('be.visible');
+        cy.contains(MODAL_CONTENT.PROTEINS_VALUE).should('be.visible');
+        cy.contains(MODAL_CONTENT.FAT).should('be.visible');
+        cy.contains(MODAL_CONTENT.FAT_VALUE).should('be.visible');
+        cy.contains(MODAL_CONTENT.CARBOHYDRATES).should('be.visible');
+        cy.contains(MODAL_CONTENT.CARBOHYDRATES_VALUE).should('be.visible');
       });
     });
 
     it('должен закрыть модальное окно ингредиента при клике на кнопку закрытия', () => {
-      cy.contains('Биокотлета из марсианской Магнолии').click();
-      cy.get('[data-cy="modal"]').should('be.visible');
-
-      cy.get('[data-cy="modal-close"]').click();
-      cy.get('[data-cy="modal"]').should('not.exist');
+      cy.get(SELECTORS.MODAL_CLOSE).click();
+      cy.get(SELECTORS.MODAL).should('not.exist');
     });
   });
 
@@ -159,38 +102,31 @@ describe('HomePage', () => {
       localStorage.setItem('refreshToken', 'test-refresh-token');
       cy.reload();
       cy.wait('@getIngredients');
+
+      cy.contains(SELECTORS.INGREDIENT_BUN).drag({
+        position: SELECTORS.DROP_ZONE_BUN,
+      });
+      cy.contains(SELECTORS.INGREDIENT_FILLING).drag({
+        position: SELECTORS.DROP_ZONE_FILLING,
+      });
     });
 
     it('должен открыть модальное окно заказа при клике на "Оформить заказ"', () => {
-      cy.contains('Краторная булка N-200i').drag({
-        position: '[data-cy="drop-zone-bun"]',
-      });
-      cy.contains('Биокотлета из марсианской Магнолии').drag({
-        position: '[data-cy="drop-zone-filling"]',
-      });
-
-      cy.contains('Оформить заказ').click();
+      cy.contains(SELECTORS.ORDER_BUTTON).click();
       cy.wait('@createOrder');
 
-      cy.get('[data-cy="modal"]').should('be.visible');
-      cy.contains('12345').should('be.visible');
-      cy.contains('идентификатор заказа').should('be.visible');
+      cy.get(SELECTORS.MODAL).as('orderModal').should('be.visible');
+      cy.contains(MODAL_CONTENT.ORDER_NUMBER).should('be.visible');
+      cy.contains(MODAL_CONTENT.ORDER_ID_LABEL).should('be.visible');
     });
 
     it('должен закрыть модальное окно заказа при клике на кнопку закрытия', () => {
-      cy.contains('Краторная булка N-200i').drag({
-        position: '[data-cy="drop-zone-bun"]',
-      });
-      cy.contains('Биокотлета из марсианской Магнолии').drag({
-        position: '[data-cy="drop-zone-filling"]',
-      });
-
-      cy.contains('Оформить заказ').click();
+      cy.contains(SELECTORS.ORDER_BUTTON).click();
       cy.wait('@createOrder');
-      cy.get('[data-cy="modal"]').should('be.visible');
+      cy.get(SELECTORS.MODAL).as('orderModal').should('be.visible');
 
-      cy.get('[data-cy="modal-close"]').click();
-      cy.get('[data-cy="modal"]').should('not.exist');
+      cy.get(SELECTORS.MODAL_CLOSE).click();
+      cy.get(SELECTORS.MODAL).should('not.exist');
     });
   });
 });

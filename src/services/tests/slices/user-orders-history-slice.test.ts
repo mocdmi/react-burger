@@ -6,7 +6,10 @@ import {
   userOrdersHistoryWsError,
   userOrdersHistoryWsMessage,
 } from '@services/actions/user-orders-history-actions.tsx';
-import { ordersHistoryUserReducer } from '@services/slices/user-orders-history-slice.ts';
+import {
+  ordersHistoryUserReducer,
+  userOrdersHistorySlice,
+} from '@services/slices/user-orders-history-slice.ts';
 
 import type { TGetOrdersHistoryWsResponse } from '@services/types.ts';
 
@@ -21,12 +24,7 @@ const createMockOrdersResponse = (
 });
 
 describe('userOrdersHistoryReducer', () => {
-  const initialState = {
-    connected: false,
-    error: null,
-    isLoading: true,
-    messages: null,
-  };
+  const initialState = userOrdersHistorySlice.getInitialState();
 
   it('должен вернуть начальное состояние', () => {
     expect(ordersHistoryUserReducer(undefined, { type: '@@INIT' })).toEqual(

@@ -29,19 +29,15 @@ const createMockIngredient = (
 };
 
 describe('ingredientsConstructorReducer', () => {
-  const initialState: TConstructorIngredient[] = [];
-
   it('должен вернуть начальное состояние', () => {
-    expect(ingredientsConstructorReducer(undefined, { type: '@@INIT' })).toEqual(
-      initialState
-    );
+    expect(ingredientsConstructorReducer(undefined, { type: '@@INIT' })).toEqual([]);
   });
 
   describe('addIngredient', () => {
     it('должен добавить ингредиент', () => {
       const ingredient = createMockIngredient({ uuid: 'uuid-1' });
       const nextState = ingredientsConstructorReducer(
-        initialState,
+        [],
         ingredientsConstructorActions.addIngredient(ingredient)
       );
       expect(nextState).toHaveLength(1);

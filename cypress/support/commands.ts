@@ -1,12 +1,18 @@
+import { SELECTORS } from '../selectors';
+
 /* eslint-disable */
 
 export {};
-
 
 declare global {
   namespace Cypress {
     interface Chainable<Subject> {
       drag(options?: { position?: string }): Chainable<Subject>;
+      loginAsAuthUser(): Chainable<void>;
+      dragIngredient(ingredientName: string, dropZoneSelector: string): Chainable<void>;
+      openIngredientModal(ingredientName: string): Chainable<void>;
+      closeModal(): Chainable<void>;
+      createOrder(): Chainable<void>;
     }
   }
 }
@@ -46,7 +52,7 @@ Cypress.Commands.add(
 
     draggable.dispatchEvent(dragStartEvent);
 
-    const dropTargetSelector = options?.position || '[data-cy="drop-zone-filling"]';
+    const dropTargetSelector = options?.position || SELECTORS.DROP_ZONE_FILLING;
     const dropZone = Cypress.$(dropTargetSelector)[0];
     if (dropZone) {
       dropZone.dispatchEvent(dragOverEvent);
@@ -58,3 +64,31 @@ Cypress.Commands.add(
     return subject;
   }
 );
+
+Cypress.Commands.add('loginAsAuthUser', () => {
+  cy.setCookie('accessToken', 'Bearer test-token');
+  localStorage.setItem('refreshToken', 'test-refresh-token');
+  cy.reload();
+});
+
+Cypress.Commands.add(
+  'dragIngredient',
+  (ingredientName: string, dropZoneSelector: string) => {
+    cy.contains(ingredientName).drag({ position: dropZoneSelector });
+  }
+);
+
+Cypress.Commands.add('openIngredientModal', (ingredientName: string) => {
+  cy.contains(ingredientName).click();
+  cy.get(SELECTORS.MODAL).as('currentModal');
+});
+
+Cypress.Commands.add('closeModal', () => {
+  cy.get(SELECTORS.MODAL_CLOSE).click();
+  cy.get(SELECTORS.MODAL).should('not.exist');
+});
+
+Cypress.Commands.add('createOrder', () => {
+  cy.contains(SELECTORS.ORDER_BUTTON).click();
+  cy.wait('@createOrder');
+});
