@@ -76,9 +76,8 @@ export const socketMiddleware = (configs: TSocketMiddlewareConfig[]): Middleware
         if (config.isValidMessage(data)) {
           store.dispatch(config.wsActions.message(data));
         }
-      } catch (err: unknown) {
-        const message = err instanceof Error ? err.message : 'WS data parse error';
-        console.log(message);
+      } catch {
+        store.dispatch(config.wsActions.error('WS data parse error'));
       }
     };
 
@@ -126,8 +125,10 @@ export const socketMiddleware = (configs: TSocketMiddlewareConfig[]): Middleware
 
         setupSocketHandlers(store, newSocket, socketData.config, socketKey);
       }
-    } catch (error) {
-      console.error('Failed to reconnect with new token:', error);
+    } catch {
+      store.dispatch(
+        socketData.config.wsActions.error('Failed to reconnect with new token')
+      );
       socketData.isReconnecting = false;
     }
   };
@@ -169,8 +170,6 @@ export const socketMiddleware = (configs: TSocketMiddlewareConfig[]): Middleware
         const socketData = sockets.get(socketKey);
         if (socketData?.socket.readyState === WebSocket.OPEN) {
           socketData.socket.send(JSON.stringify(action.payload));
-        } else {
-          console.warn('WS not open, message not sent');
         }
       }
     }

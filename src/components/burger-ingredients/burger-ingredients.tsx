@@ -6,7 +6,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { GroupsTabs } from './components/groups-tabs/groups-tabs';
 import { IngredientsCard } from './components/ingredients-card/ingredients-card';
 import { IngredientsGroup } from './components/ingredients-group/ingredients-group';
-import { IngredientsGroups } from './components/ingridients-groups/ingridients-groups';
+import { IngredientsGroups } from './components/ingredients-groups/ingredients-groups';
 import { useIngredientsCounter } from './hooks/use-ingredients-counter';
 import { useIngredientsGroups } from './hooks/use-ingredients-groups';
 import { useIngredientsTabs } from './hooks/use-Ingredients-tabs';

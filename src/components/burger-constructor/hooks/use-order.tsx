@@ -3,6 +3,7 @@ import { useGetOrderTotal } from '@/hooks/use-get-order-total';
 import { useCreateOrderMutation } from '@/services/api/endpoints/order-endpoints';
 import { useAppDispatch } from '@/services/hooks/use-app-dispatch';
 import { ingredientsConstructorActions } from '@/services/slices/ingredients-constructor-slice';
+import { getErrorMessage } from '@/utils/get-error-message';
 import { isAuth } from '@/utils/is-auth';
 import { useCallback, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -48,10 +49,9 @@ export const useOrder = (ingredients: TConstructorIngredient[]): TUseOrderResult
       });
       dispatch(ingredientsConstructorActions.reset());
     } catch (err: unknown) {
-      const message = err instanceof Error ? err.message : 'Неизвестная ошибка';
-      setErrorMessage(message);
+      setErrorMessage(getErrorMessage(err));
     }
-  }, [ingredients]);
+  }, [ingredients, createOrder, openModal, dispatch, navigate]);
 
   return {
     total,

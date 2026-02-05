@@ -7,7 +7,7 @@ export {};
 declare global {
   namespace Cypress {
     interface Chainable<Subject> {
-      drag(options?: { position?: string }): Chainable<Subject>;
+      drag(options?: { target?: string }): Chainable<Subject>;
       loginAsAuthUser(): Chainable<void>;
       dragIngredient(ingredientName: string, dropZoneSelector: string): Chainable<void>;
       openIngredientModal(ingredientName: string): Chainable<void>;
@@ -20,7 +20,7 @@ declare global {
 Cypress.Commands.add(
   'drag',
   { prevSubject: true },
-  (subject, options?: { position?: string }) => {
+  (subject, options?: { target?: string }) => {
     const draggable = subject[0];
     const dataTransfer = new DataTransfer();
 
@@ -52,7 +52,7 @@ Cypress.Commands.add(
 
     draggable.dispatchEvent(dragStartEvent);
 
-    const dropTargetSelector = options?.position || SELECTORS.DROP_ZONE_FILLING;
+    const dropTargetSelector = options?.target || SELECTORS.DROP_ZONE_FILLING;
     const dropZone = Cypress.$(dropTargetSelector)[0];
     if (dropZone) {
       dropZone.dispatchEvent(dragOverEvent);
@@ -74,13 +74,13 @@ Cypress.Commands.add('loginAsAuthUser', () => {
 Cypress.Commands.add(
   'dragIngredient',
   (ingredientName: string, dropZoneSelector: string) => {
-    cy.contains(ingredientName).drag({ position: dropZoneSelector });
+    cy.contains(ingredientName).drag({ target: dropZoneSelector });
   }
 );
 
 Cypress.Commands.add('openIngredientModal', (ingredientName: string) => {
   cy.contains(ingredientName).click();
-  cy.get(SELECTORS.MODAL).as('currentModal');
+  cy.get(SELECTORS.MODAL);
 });
 
 Cypress.Commands.add('closeModal', () => {
@@ -90,5 +90,4 @@ Cypress.Commands.add('closeModal', () => {
 
 Cypress.Commands.add('createOrder', () => {
   cy.contains(SELECTORS.ORDER_BUTTON).click();
-  cy.wait('@createOrder');
 });

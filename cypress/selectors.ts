@@ -1,13 +1,14 @@
 export const SELECTORS = {
-  MODAL: '[data-cy="modal"]' as const,
-  MODAL_CLOSE: '[data-cy="modal-close"]' as const,
-  DROP_ZONE_BUN: '[data-cy="drop-zone-bun"]' as const,
-  DROP_ZONE_FILLING: '[data-cy="drop-zone-filling"]' as const,
-  INGREDIENT_BUN: 'Краторная булка N-200i' as const,
-  INGREDIENT_FILLING: 'Биокотлета из марсианской Магнолии' as const,
-  INGREDIENT_SAUCE: 'Соус Spicy-X' as const,
-  ORDER_BUTTON: 'Оформить заказ' as const,
-};
+  MODAL: '[data-cy="modal"]',
+  MODAL_CLOSE: '[data-cy="modal-close"]',
+  DROP_ZONE_BUN: '[data-cy="drop-zone-bun"]',
+  DROP_ZONE_FILLING: '[data-cy="drop-zone-filling"]',
+  INGREDIENT_BUN: 'Краторная булка N-200i',
+  INGREDIENT_FILLING: 'Биокотлета из марсианской Магнолии',
+  INGREDIENT_SAUCE: 'Соус Spicy-X',
+  ORDER_BUTTON: 'Оформить заказ',
+  ORDER_TOTAL: '3024',
+} as const;
 
 export const MODAL_CONTENT = {
   CALORIES: 'Калории,ккал',

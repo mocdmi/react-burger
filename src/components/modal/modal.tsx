@@ -35,6 +35,13 @@ export const Modal = (): React.JSX.Element | null => {
 
   if (!ModalComponent) return null;
 
+  const modalsRoot = document.getElementById('modals');
+
+  if (!modalsRoot) {
+    console.error('Modal root element #modals not found');
+    return null;
+  }
+
   return createPortal(
     <div className={styles.wrapper}>
       <div className={styles.modal} data-cy="modal">
@@ -45,6 +52,6 @@ export const Modal = (): React.JSX.Element | null => {
       </div>
       <ModalOverlay onClick={close} />
     </div>,
-    document.getElementById('modals')!
+    modalsRoot
   );
 };

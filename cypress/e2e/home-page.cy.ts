@@ -34,34 +34,32 @@ describe('HomePage', () => {
   describe('Перетаскивание ингредиентов', () => {
     it('должен добавить булку в конструктор при перетаскивании в drop zone', () => {
       cy.contains(SELECTORS.INGREDIENT_BUN).drag({
-        position: SELECTORS.DROP_ZONE_BUN,
+        target: SELECTORS.DROP_ZONE_BUN,
       });
 
-      cy.contains(SELECTORS.INGREDIENT_BUN).should('exist');
+      cy.contains(`${SELECTORS.INGREDIENT_BUN} (верх)`).should('be.visible');
     });
 
     it('должен добавить начинку в конструктор при перетаскивании в drop zone', () => {
       cy.contains(SELECTORS.INGREDIENT_FILLING).drag({
-        position: SELECTORS.DROP_ZONE_FILLING,
+        target: SELECTORS.DROP_ZONE_FILLING,
       });
 
-      cy.contains(SELECTORS.INGREDIENT_FILLING).should('exist');
+      cy.get(SELECTORS.DROP_ZONE_FILLING).should('not.exist');
     });
 
     it('должен добавить несколько ингредиентов в конструктор', () => {
       cy.contains(SELECTORS.INGREDIENT_BUN).drag({
-        position: SELECTORS.DROP_ZONE_BUN,
+        target: SELECTORS.DROP_ZONE_BUN,
       });
       cy.contains(SELECTORS.INGREDIENT_FILLING).drag({
-        position: SELECTORS.DROP_ZONE_FILLING,
+        target: SELECTORS.DROP_ZONE_FILLING,
       });
       cy.contains(SELECTORS.INGREDIENT_SAUCE).drag({
-        position: SELECTORS.DROP_ZONE_FILLING,
+        target: SELECTORS.DROP_ZONE_FILLING,
       });
 
-      cy.contains(SELECTORS.INGREDIENT_BUN).should('exist');
-      cy.contains(SELECTORS.INGREDIENT_FILLING).should('exist');
-      cy.contains(SELECTORS.INGREDIENT_SAUCE).should('exist');
+      cy.contains(SELECTORS.ORDER_TOTAL).should('be.visible');
     });
   });
 
@@ -98,16 +96,14 @@ describe('HomePage', () => {
 
   describe('Модальное окно заказа', () => {
     beforeEach(() => {
-      cy.setCookie('accessToken', 'Bearer test-token');
-      localStorage.setItem('refreshToken', 'test-refresh-token');
-      cy.reload();
+      cy.loginAsAuthUser();
       cy.wait('@getIngredients');
 
       cy.contains(SELECTORS.INGREDIENT_BUN).drag({
-        position: SELECTORS.DROP_ZONE_BUN,
+        target: SELECTORS.DROP_ZONE_BUN,
       });
       cy.contains(SELECTORS.INGREDIENT_FILLING).drag({
-        position: SELECTORS.DROP_ZONE_FILLING,
+        target: SELECTORS.DROP_ZONE_FILLING,
       });
     });
 
@@ -115,7 +111,7 @@ describe('HomePage', () => {
       cy.contains(SELECTORS.ORDER_BUTTON).click();
       cy.wait('@createOrder');
 
-      cy.get(SELECTORS.MODAL).as('orderModal').should('be.visible');
+      cy.get(SELECTORS.MODAL).should('be.visible');
       cy.contains(MODAL_CONTENT.ORDER_NUMBER).should('be.visible');
       cy.contains(MODAL_CONTENT.ORDER_ID_LABEL).should('be.visible');
     });
@@ -123,7 +119,7 @@ describe('HomePage', () => {
     it('должен закрыть модальное окно заказа при клике на кнопку закрытия', () => {
       cy.contains(SELECTORS.ORDER_BUTTON).click();
       cy.wait('@createOrder');
-      cy.get(SELECTORS.MODAL).as('orderModal').should('be.visible');
+      cy.get(SELECTORS.MODAL).should('be.visible');
 
       cy.get(SELECTORS.MODAL_CLOSE).click();
       cy.get(SELECTORS.MODAL).should('not.exist');
