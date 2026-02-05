@@ -2,7 +2,7 @@
 
 [![React](https://img.shields.io/badge/React-19.1.0-61dafb?style=flat-square&logo=react)](https://reactjs.org/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.8.3-3178c6?style=flat-square&logo=typescript)](https://www.typescriptlang.org/)
-[![Redux Toolkit](https://img.shields.io/badge/Redux%20Toolkit-2.8.2-764abc?style=flat-square&logo=redux)
+[![Redux Toolkit](https://img.shields.io/badge/Redux%20Toolkit-2.8.2-764abc?style=flat-square&logo=redux)](https://img.shields.io/badge/Redux%20Toolkit-2.8.2-764abc?style=flat-square&logo=redux)
 [![Vite](https://img.shields.io/badge/Vite-6.3.5-646cff?style=flat-square&logo=vite)](https://vitejs.dev/)
 [![Vitest](https://img.shields.io/badge/Vitest-3.2.3-fcc72b?style=flat-square&logo=vitest)](https://vitest.dev/)
 [![Cypress](https://img.shields.io/badge/Cypress-14.4.1-000000?style=flat-square&logo=cypress)](https://www.cypress.io/)
