@@ -1,0 +1,23 @@
+.error_boundary {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  padding: 20px;
+  text-align: center;
+}
+
+.button {
+  padding: 12px 24px;
+  color: #fff;
+  font-size: 16px;
+  background-color: #4c4cff;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.button:hover {
+  background-color: #3b3bcc;
+}

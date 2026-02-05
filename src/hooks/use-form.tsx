@@ -11,12 +11,9 @@ type TUseFormResult<T extends object> = {
 export function useForm<T extends object>(initState: T): TUseFormResult<T> {
   const [form, setForm] = useState<T>(initState);
 
-  const handleChange = useCallback(
-    (e: ChangeEvent<HTMLInputElement>): void => {
-      setForm({ ...form, [e.target.name]: e.target.value });
-    },
-    [form]
-  );
+  const handleChange = useCallback((e: ChangeEvent<HTMLInputElement>): void => {
+    setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+  }, []);
 
   const updateForm = (newState: T): void => {
     setForm(newState);

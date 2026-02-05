@@ -35,7 +35,8 @@ export function setCookie(
     cookieStr += `; expires=${expiresDate.toUTCString()}`;
   }
 
-  if (props.path) cookieStr += `; path=${props.path}`;
+  const path = props.path ?? '/';
+  cookieStr += `; path=${path}`;
   if (props.domain) cookieStr += `; domain=${props.domain}`;
   if (props.secure) cookieStr += `; Secure`;
   if (props.sameSite) cookieStr += `; SameSite=${props.sameSite}`;

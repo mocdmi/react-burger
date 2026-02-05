@@ -45,13 +45,8 @@ export const authApi = api.injectEndpoints({
       }),
       invalidatesTags: ['Auth', 'User'],
       async onQueryStarted(_, { queryFulfilled }) {
-        try {
-          const { data } = await queryFulfilled;
-          if (data.success) persistAuth(data);
-        } catch (err: unknown) {
-          const message = err instanceof Error ? err.message : 'Неизвестная ошибка';
-          console.error('Register mutation failed', message);
-        }
+        const { data } = await queryFulfilled.catch(() => ({ data: null }));
+        if (data?.success) persistAuth(data);
       },
     }),
 
@@ -63,13 +58,8 @@ export const authApi = api.injectEndpoints({
       }),
       invalidatesTags: ['Auth', 'User'],
       async onQueryStarted(_, { queryFulfilled }) {
-        try {
-          const { data } = await queryFulfilled;
-          if (data.success) persistAuth(data);
-        } catch (err: unknown) {
-          const message = err instanceof Error ? err.message : 'Неизвестная ошибка';
-          console.error('Register mutation failed', message);
-        }
+        const { data } = await queryFulfilled.catch(() => ({ data: null }));
+        if (data?.success) persistAuth(data);
       },
     }),
 
@@ -81,17 +71,12 @@ export const authApi = api.injectEndpoints({
       }),
       invalidatesTags: ['Auth'],
       async onQueryStarted(_, { queryFulfilled, dispatch }) {
-        try {
-          const { data } = await queryFulfilled;
+        const { data } = await queryFulfilled.catch(() => ({ data: null }));
 
-          if (data.success) {
-            deleteCookie('accessToken');
-            localStorage.removeItem('refreshToken');
-            dispatch(authSlice.actions.logout());
-          }
-        } catch (err: unknown) {
-          const message = err instanceof Error ? err.message : 'Неизвестная ошибка';
-          console.error('Register mutation failed', message);
+        if (data?.success) {
+          deleteCookie('accessToken');
+          localStorage.removeItem('refreshToken');
+          dispatch(authSlice.actions.logout());
         }
       },
     }),
@@ -106,13 +91,8 @@ export const authApi = api.injectEndpoints({
         method: 'POST',
       }),
       async onQueryStarted(_, { queryFulfilled }) {
-        try {
-          const { data } = await queryFulfilled;
-          if (data.success) setResetFlag();
-        } catch (err: unknown) {
-          const message = err instanceof Error ? err.message : 'Неизвестная ошибка';
-          console.error('Forgot password mutation failed', message);
-        }
+        const { data } = await queryFulfilled.catch(() => ({ data: null }));
+        if (data?.success) setResetFlag();
       },
     }),
 
@@ -123,13 +103,8 @@ export const authApi = api.injectEndpoints({
         method: 'POST',
       }),
       async onQueryStarted(_, { queryFulfilled }) {
-        try {
-          const { data } = await queryFulfilled;
-          if (data.success) clearResetFlag();
-        } catch (err: unknown) {
-          const message = err instanceof Error ? err.message : 'Неизвестная ошибка';
-          console.error('Forgot password mutation failed', message);
-        }
+        const { data } = await queryFulfilled.catch(() => ({ data: null }));
+        if (data?.success) clearResetFlag();
       },
     }),
 

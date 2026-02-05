@@ -35,16 +35,23 @@ export const Modal = (): React.JSX.Element | null => {
 
   if (!ModalComponent) return null;
 
+  const modalsRoot = document.getElementById('modals');
+
+  if (!modalsRoot) {
+    console.error('Modal root element #modals not found');
+    return null;
+  }
+
   return createPortal(
     <div className={styles.wrapper}>
-      <div className={styles.modal}>
-        <button className={styles.close_button} onClick={close}>
+      <div className={styles.modal} data-cy="modal">
+        <button className={styles.close_button} onClick={close} data-cy="modal-close">
           <CloseIcon type="primary" />
         </button>
         {payload && <ModalComponent payload={payload} />}
       </div>
       <ModalOverlay onClick={close} />
     </div>,
-    document.getElementById('modals')!
+    modalsRoot
   );
 };

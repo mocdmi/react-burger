@@ -17,11 +17,24 @@ type TConstructorIngredientsProps = {
 };
 
 export const BunDropZone = ({ isOver }: { isOver: boolean }): React.JSX.Element => {
-  return <DropZone text="Переместите сюда булку" variant="bun" isOver={isOver} />;
+  return (
+    <DropZone
+      text="Переместите сюда булку"
+      variant="bun"
+      isOver={isOver}
+      data-cy="drop-zone-bun"
+    />
+  );
 };
 
 export const FillingDropZone = ({ isOver }: { isOver: boolean }): React.JSX.Element => {
-  return <DropZone text="Переместите сюда ингредиенты" isOver={isOver} />;
+  return (
+    <DropZone
+      text="Переместите сюда ингредиенты"
+      isOver={isOver}
+      data-cy="drop-zone-filling"
+    />
+  );
 };
 
 export const ConstructorIngredients = ({
