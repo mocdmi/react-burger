@@ -9,7 +9,7 @@
 
 Интерактивное веб-приложение для создания и заказа кастомизированных бургеров. Проект реализован в рамках курса [React Developer](https://practicum.yandex.ru/react/) от Яндекс.Практикум.
 
-🔗 [Ссылка на проект](https://mocdmi.nomorepartiessbs.ru/)
+🔗 [Ссылка на проект](https://stellar-burger.mocdmi.ru/)
 
 ---
 
